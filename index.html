@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>90-day plan: AI product engineer interviews</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#EEF2F5;--surface:#FFFFFF;--ink:#16212B;--muted:#5B6875;--line:#D5DDE4;--accent:#3046C9;--tint:#E3E8FB;--done:#0E7A68;
+  --dsa:#3046C9;--js:#0E7A68;--react:#0B6E99;--node:#3D7317;--fri:#7A5A00;--des:#8B3A9E;--hld:#A2560B;--build:#B0365A;--mock:#16212B;--rev:#5B6875;--db:#8A4B2F;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#10161C;--surface:#18212A;--ink:#E6ECF1;--muted:#9AA8B5;--line:#2A3540;--accent:#8E9DFF;--tint:#222C46;--done:#4FD1B5;
+  --dsa:#8E9DFF;--js:#4FD1B5;--react:#5CC4F2;--node:#9AD66B;--fri:#E2C25A;--des:#D49BE6;--hld:#F0A65A;--build:#F08AA8;--mock:#E6ECF1;--rev:#9AA8B5;--db:#E0A487;}}
+:root[data-theme="dark"]{
+  --bg:#10161C;--surface:#18212A;--ink:#E6ECF1;--muted:#9AA8B5;--line:#2A3540;--accent:#8E9DFF;--tint:#222C46;--done:#4FD1B5;
+  --dsa:#8E9DFF;--js:#4FD1B5;--react:#5CC4F2;--node:#9AD66B;--fri:#E2C25A;--des:#D49BE6;--hld:#F0A65A;--build:#F08AA8;--mock:#E6ECF1;--rev:#9AA8B5;--db:#E0A487;}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px)}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+.wrap{max-width:800px;margin:0 auto;padding:28px 18px 64px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,7vw,54px);line-height:1.02;letter-spacing:-0.02em;margin:0 0 8px}
+.lede{color:var(--muted);margin:0 0 22px;max-width:62ch}
+a{color:inherit;text-underline-offset:3px}
+button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin:0 0 26px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;overflow-x:auto}
+.tab{font:inherit;font-weight:700;background:none;border:none;border-bottom:3px solid transparent;border-radius:0;padding:12px 14px;color:var(--muted);cursor:pointer;margin-bottom:-1px;white-space:nowrap}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+
+.strip-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.strip-head h2{font-family:var(--display);font-weight:500;font-size:20px;margin:0}
+.pct{font-family:var(--display);font-weight:700;font-size:20px}
+.strips{display:grid;gap:10px;margin-bottom:6px}
+.prow{display:grid;grid-template-columns:64px 1fr;gap:10px;align-items:center}
+.prow .pl{font-size:13px;color:var(--muted);line-height:1.2}
+.prow .pl b{display:block;color:var(--ink);font-family:var(--display);font-size:15px}
+.strip{display:grid;grid-template-columns:repeat(15,1fr);gap:4px}
+.cell{position:relative;aspect-ratio:1/1.2;border:1px solid var(--line);border-radius:5px;background:var(--surface);overflow:hidden;cursor:pointer;padding:0;font:inherit;color:var(--ink)}
+.cell .fill{position:absolute;left:0;right:0;bottom:0;background:var(--accent);opacity:.3;transition:height .3s}
+.cell.full .fill{background:var(--done);opacity:.5}
+.cell .n{position:relative;font-size:11px;font-weight:700}
+.cell.today{outline:2.5px solid var(--ink);outline-offset:1px}
+.cell.mock{border-style:dashed}
+.cell.check{border:2px solid var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--muted);margin:14px 0 26px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:0 0 12px}
+.box.hot{border:2px solid var(--ink)}
+.box h2{font-family:var(--display);font-weight:500;font-size:20px;margin:0 0 6px}
+.box ul{margin:0;padding-left:20px}
+.box li{margin:4px 0}
+.box .sub{color:var(--muted);font-size:15px;margin:0 0 8px}
+.sched{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:15px}
+.sched b{font-variant-numeric:tabular-nums}
+
+.phase{margin-top:40px}
+.phase>h3{font-family:var(--display);font-weight:700;font-size:28px;margin:0;letter-spacing:-0.01em}
+.phase .dates{color:var(--muted);margin:2px 0 10px}
+details.goal{margin:0 0 14px}
+details.goal summary{cursor:pointer;font-weight:700;color:var(--ink)}
+details.goal ul{margin:8px 0 0;padding-left:20px;color:var(--muted)}
+details.week{border-top:1px solid var(--line)}
+details.week>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 2px}
+details.week>summary::-webkit-details-marker{display:none}
+details.week>summary .wt{font-family:var(--display);font-weight:700;font-size:19px}
+details.week>summary .wt small{font-family:var(--body);font-weight:400;font-size:14px;color:var(--muted);margin-left:8px}
+.chev{transition:transform .2s;color:var(--muted)}
+details[open]>summary .chev{transform:rotate(90deg)}
+.wbody{padding-bottom:14px}
+
+details.day{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:8px}
+details.day[open]{border-color:var(--muted)}
+details.day.today-d{border-color:var(--ink);border-width:2px}
+details.day>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:12px;padding:12px 14px}
+details.day>summary::-webkit-details-marker{display:none}
+.dn{font-family:var(--display);font-weight:700;font-size:22px;line-height:1}
+.dn small{display:block;font-family:var(--body);font-weight:400;font-size:12px;color:var(--muted);margin-top:3px}
+.sumtxt{min-width:0}
+.sumtxt b{display:block;font-weight:700}
+.sumtxt span{color:var(--muted);font-size:14px}
+.badge{font-size:13px;padding:3px 9px;border-radius:999px;background:var(--tint);color:var(--ink);white-space:nowrap}
+.badge.ok{background:var(--done);color:var(--surface)}
+.tasks{list-style:none;margin:0;padding:0 14px 14px}
+.task{display:grid;grid-template-columns:26px 1fr;gap:10px;padding:12px 0;border-top:1px solid var(--line)}
+.task input{width:20px;height:20px;margin:3px 0 0;accent-color:var(--done);cursor:pointer}
+.task label{cursor:pointer}
+.tk{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:2px}
+.tk .tr{font-weight:700;border-left:3px solid currentColor;padding-left:6px}
+.tt{font-weight:700}
+.tn{color:var(--muted);font-size:15px;margin-top:2px}
+.task.checked .tt{text-decoration:line-through;text-decoration-thickness:2px;opacity:.6}
+
+.mini{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+.mini a{font-weight:700}
+.btns{display:flex;gap:6px;flex-wrap:wrap}
+.b{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer}
+.b.go{background:var(--done);border-color:var(--done);color:var(--surface);font-weight:700}
+.b.no{border-color:var(--build);color:var(--build)}
+.counts{color:var(--muted);font-size:15px;margin:18px 0 10px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.f{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:5px 12px;cursor:pointer}
+.f[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.pat{margin-top:30px}
+.pat h3{font-family:var(--display);font-weight:700;font-size:22px;margin:0;letter-spacing:-0.01em}
+.pat .why{color:var(--muted);margin:2px 0 10px;max-width:62ch}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:12px}
+.bar i{display:block;height:100%;background:var(--done)}
+.qlist{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.q{display:grid;grid-template-columns:1fr auto;gap:8px 14px;padding:13px 14px;border-top:1px solid var(--line);align-items:start}
+.q:first-child{border-top:none}
+.q.weak{box-shadow:inset 4px 0 0 var(--build)}
+.q.known{box-shadow:inset 4px 0 0 var(--done)}
+.q.learning{box-shadow:inset 4px 0 0 var(--hld)}
+.qt{font-weight:700}
+.lc{color:var(--muted);font-weight:400;font-size:14px;margin-right:4px}
+.diff{font-size:12px;font-weight:700;padding:1px 7px;border-radius:999px;margin-left:6px;border:1px solid currentColor;vertical-align:2px}
+.diff.E{color:var(--done)}.diff.M{color:var(--hld)}.diff.H{color:var(--build)}
+.qm{color:var(--muted);font-size:14px;margin-top:3px}
+.qm .due-now{color:var(--build);font-weight:700}
+.dots{display:inline-flex;gap:3px;margin-left:8px;vertical-align:1px}
+.dots i{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--done)}
+.dots i.on{background:var(--done)}
+.qact{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+select.st{font:inherit;font-size:14px;font-weight:700;padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.q details{grid-column:1/-1}
+.q summary{display:inline;font-size:14px;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.q textarea{width:100%;min-height:70px;margin-top:8px;font:inherit;font-size:15px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);resize:vertical}
+.empty{color:var(--muted);padding:14px}
+
+.co{margin-bottom:12px}
+.co summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.co summary::-webkit-details-marker{display:none}
+.co h3{font-family:var(--display);font-weight:700;font-size:24px;margin:0}
+.fit{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;border:1.5px solid currentColor}
+.fit.good{color:var(--done)}.fit.maybe{color:var(--hld)}.fit.no{color:var(--build)}
+.co dl{margin:12px 0 0;display:grid;grid-template-columns:130px 1fr;gap:8px 14px}
+.co dt{font-weight:700;font-size:15px}
+.co dd{margin:0;color:var(--muted);font-size:15px}
+.foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:28px;color:var(--muted);font-size:14px}
+.foot button{font:inherit;background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:6px 12px;cursor:pointer}
+@media (max-width:560px){
+  .strip{grid-template-columns:repeat(10,1fr)}
+  .prow{grid-template-columns:1fr}
+  details.day>summary{grid-template-columns:44px 1fr}.badge{grid-column:2;justify-self:start}
+  .q{grid-template-columns:1fr}.qact{flex-direction:row;align-items:center;flex-wrap:wrap}
+  .co dl{grid-template-columns:1fr}.co dd{margin-bottom:6px}
+}
+@media (prefers-reduced-motion:reduce){.cell .fill,.chev{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>90 days, one direction</h1>
+  <p class="lede">Warm-up from 6 Oct, then the plan runs 15 Oct 2026 to 12 Jan 2027. Built around how Anthropic, OpenAI, Vercel, ElevenLabs and Sarvam AI actually interview. Open today, do the blocks, tick them off. That's the whole system.</p>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="tab-plan" aria-controls="view-plan" type="button">Daily plan</button>
+    <button class="tab" role="tab" id="tab-sheet" aria-controls="view-sheet" type="button">DSA sheet</button>
+    <button class="tab" role="tab" id="tab-map" aria-controls="view-map" type="button">Interview map</button>
+  </div>
+
+  <div id="view-plan" role="tabpanel" aria-labelledby="tab-plan">
+    <div class="strip-head"><h2>Your 90 days</h2><span class="pct" id="pct">0%</span></div>
+    <div class="strips" id="strips"></div>
+    <div class="legend" id="legend"></div>
+
+    <div class="box">
+      <h2>Every weekday</h2>
+      <div class="sched">
+        <b>11:00</b><span>DSA: revision quiz first, then 2 problems</span>
+        <b>12:30</b><span>Coding round: Mon and Wed JS/TS, Tue React, Thu Node, Fri new-format rounds</span>
+        <b>2:00</b><span>Lunch and a walk, away from screens</span>
+        <b>2:45</b><span>Design principles, then LLD</span>
+        <b>4:00</b><span>HLD, one system a day</span>
+        <b>5:00</b><span>Build and be seen</span>
+      </div>
+    </div>
+    <div class="box">
+      <h2>Rules that keep you out of confusion</h2>
+      <ul>
+        <li>Only do what today says. New course, new sheet, new YouTube series: no, until Jan 3.</li>
+        <li>DSA: 20 minutes alone before any hint. Brute force first, then the pattern.</li>
+        <li>Coding rounds are done without AI, except the Friday AI-assisted round, where steering the AI well is the skill.</li>
+        <li>A day with 3 of 5 blocks done still counts. Missing a day means you continue tomorrow, not restart.</li>
+        <li>Saturday is mock day, Sunday is revision. Sunday after 3 PM is off.</li>
+      </ul>
+    </div>
+
+    <section class="phase" id="warmup-sec"></section>
+    <div id="phases"></div>
+  </div>
+
+  <div id="view-sheet" role="tabpanel" aria-labelledby="tab-sheet" hidden>
+    <div id="today-panels"></div>
+    <p class="counts" id="counts"></p>
+    <div class="filters" id="filters"></div>
+    <div id="patterns"></div>
+  </div>
+
+  <div id="view-map" role="tabpanel" aria-labelledby="tab-map" hidden>
+    <div class="box hot">
+      <h2>What the research says, in one paragraph</h2>
+      <p style="margin:0">None of these five companies is a pure LeetCode shop. They test practical coding (build something, then extend it), React or full-stack builds, system design with an AI flavour, and deep conversations about what you've shipped. DSA still matters as the base, and ElevenLabs and Sarvam do ask it directly. The new thing is the AI-assisted round: some companies ban AI in interviews, some now hand you one and grade how you steer it. This plan practises both.</p>
+    </div>
+    <div id="companies"></div>
+    <div class="box">
+      <h2>The AI-assisted round</h2>
+      <p class="sub">Read a working codebase, fix planted bugs, extend it, then make it survive 100x the input, with an assistant beside you. You're graded on how precisely you steer it, not on whether tests go green.</p>
+      <ul>
+        <li>Name the class and approach in your prompt. "Keep a running balance per account in a map" beats pasting the problem.</li>
+        <li>Read the code yourself first. Explaining the codebase in your own words is often a scored step.</li>
+        <li>Write pseudo-code as comments before prompting, so the assistant can't wander off.</li>
+        <li>Always run the code. Judge what comes back before accepting it.</li>
+        <li>Expect a no-AI follow-up on the same bug: database internals, locks, deadlocks, failure modes.</li>
+        <li>In the plan: every Friday at 12:30, alternating with code review and TypeScript types.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot"><span id="sync">Progress saved in this browser.</span><button id="reset" type="button">Clear plan ticks</button></div>
+</div>
+
+<script>
+/* ---------- tracks ---------- */
+var T={
+  dsa:{label:"DSA",color:"var(--dsa)",time:"11:00"},
+  js:{label:"JS/TS practical, no AI",color:"var(--js)",time:"12:30"},
+  react:{label:"React machine coding, no AI",color:"var(--react)",time:"12:30"},
+  node:{label:"Node and backend",color:"var(--node)",time:"12:30"},
+  db:{label:"DB and OS internals, no AI",color:"var(--db)",time:"+40 min"},
+  warm:{label:"Warm-up",color:"var(--dsa)",time:""},
+  fri:{label:"New-format round",color:"var(--fri)",time:"12:30"},
+  des:{label:"Design principles / LLD",color:"var(--des)",time:"2:45"},
+  hld:{label:"HLD",color:"var(--hld)",time:"4:00"},
+  build:{label:"Build and be seen",color:"var(--build)",time:"5:00"},
+  mock:{label:"Mock",color:"var(--mock)",time:"11:00"},
+  rev:{label:"Revision",color:"var(--rev)",time:""}
+};
+
+/* ---------- DSA master list: lc -> [title, slug, diff, pattern] ---------- */
+var P={AH:"Arrays and hashing",TP:"Two pointers",SW:"Sliding window",ST:"Stack",BS:"Binary search",LL:"Linked list",RB:"Recursion and backtracking",TR:"Trees",HP:"Heap",GR:"Graphs",IG:"Intervals and greedy",TI:"Trie",DP:"Dynamic programming",DM:"Design and matrix"};
+var WHY={};
+WHY[P.AH]="Trade memory for speed: remember what you've already seen so you never look twice.";
+WHY[P.TP]="Two indexes walking toward each other, or one chasing the other, over sorted or structured data.";
+WHY[P.SW]="A range that grows on the right and shrinks on the left, always staying valid.";
+WHY[P.ST]="Last in, first out. Reach for it on matching brackets and 'next greater or smaller' questions.";
+WHY[P.BS]="Halve the search space every step, either over the values or over the possible answers.";
+WHY[P.LL]="Pointer surgery: dummy heads, slow and fast pointers, reversing links in place.";
+WHY[P.RB]="Solve a smaller copy of the same problem. For choices: pick, recurse, undo. The optimised answer stays recursive.";
+WHY[P.TR]="Most tree problems are one recursive function: what do I need back from my left and right child?";
+WHY[P.HP]="Keep the best k things cheaply. Top k, kth largest, running medians.";
+WHY[P.GR]="Nodes and edges. BFS for fewest steps, DFS for reachability, topological sort for order.";
+WHY[P.IG]="Sort first, then make the locally best choice and convince yourself it can't hurt.";
+WHY[P.TI]="A tree of characters for fast prefix lookups.";
+WHY[P.DP]="Recursion plus memory. Write the recursive version, cache it, then flip it into a table.";
+WHY[P.DM]="Build a small data structure with exact time limits, or walk a grid carefully.";
+
+var Q={
+1:["Two Sum","two-sum","E",P.AH],217:["Contains Duplicate","contains-duplicate","E",P.AH],242:["Valid Anagram","valid-anagram","E",P.AH],
+49:["Group Anagrams","group-anagrams","M",P.AH],347:["Top K Frequent Elements","top-k-frequent-elements","M",P.AH],
+238:["Product of Array Except Self","product-of-array-except-self","M",P.AH],128:["Longest Consecutive Sequence","longest-consecutive-sequence","M",P.AH],
+560:["Subarray Sum Equals K","subarray-sum-equals-k","M",P.AH],
+125:["Valid Palindrome","valid-palindrome","E",P.TP],15:["3Sum","3sum","M",P.TP],11:["Container With Most Water","container-with-most-water","M",P.TP],
+75:["Sort Colors","sort-colors","M",P.TP],42:["Trapping Rain Water","trapping-rain-water","H",P.TP],
+121:["Best Time to Buy and Sell Stock","best-time-to-buy-and-sell-stock","E",P.SW],643:["Maximum Average Subarray I","maximum-average-subarray-i","E",P.SW],
+3:["Longest Substring Without Repeating Characters","longest-substring-without-repeating-characters","M",P.SW],
+424:["Longest Repeating Character Replacement","longest-repeating-character-replacement","M",P.SW],567:["Permutation in String","permutation-in-string","M",P.SW],
+209:["Minimum Size Subarray Sum","minimum-size-subarray-sum","M",P.SW],76:["Minimum Window Substring","minimum-window-substring","H",P.SW],
+904:["Fruit Into Baskets","fruit-into-baskets","M",P.SW],438:["Find All Anagrams in a String","find-all-anagrams-in-a-string","M",P.SW],
+1004:["Max Consecutive Ones III","max-consecutive-ones-iii","M",P.SW],
+20:["Valid Parentheses","valid-parentheses","E",P.ST],155:["Min Stack","min-stack","M",P.ST],739:["Daily Temperatures","daily-temperatures","M",P.ST],
+496:["Next Greater Element I","next-greater-element-i","E",P.ST],150:["Evaluate Reverse Polish Notation","evaluate-reverse-polish-notation","M",P.ST],
+735:["Asteroid Collision","asteroid-collision","M",P.ST],84:["Largest Rectangle in Histogram","largest-rectangle-in-histogram","H",P.ST],
+853:["Car Fleet","car-fleet","M",P.ST],
+704:["Binary Search","binary-search","E",P.BS],35:["Search Insert Position","search-insert-position","E",P.BS],278:["First Bad Version","first-bad-version","E",P.BS],
+33:["Search in Rotated Sorted Array","search-in-rotated-sorted-array","M",P.BS],153:["Find Minimum in Rotated Sorted Array","find-minimum-in-rotated-sorted-array","M",P.BS],
+875:["Koko Eating Bananas","koko-eating-bananas","M",P.BS],981:["Time Based Key-Value Store","time-based-key-value-store","M",P.BS],
+74:["Search a 2D Matrix","search-a-2d-matrix","M",P.BS],
+206:["Reverse Linked List","reverse-linked-list","E",P.LL],21:["Merge Two Sorted Lists","merge-two-sorted-lists","E",P.LL],141:["Linked List Cycle","linked-list-cycle","E",P.LL],
+876:["Middle of the Linked List","middle-of-the-linked-list","E",P.LL],19:["Remove Nth Node From End of List","remove-nth-node-from-end-of-list","M",P.LL],
+143:["Reorder List","reorder-list","M",P.LL],2:["Add Two Numbers","add-two-numbers","M",P.LL],
+509:["Fibonacci Number","fibonacci-number","E",P.RB],231:["Power of Two","power-of-two","E",P.RB],50:["Pow(x, n)","powx-n","M",P.RB],
+344:["Reverse String","reverse-string","E",P.RB],78:["Subsets","subsets","M",P.RB],46:["Permutations","permutations","M",P.RB],
+39:["Combination Sum","combination-sum","M",P.RB],22:["Generate Parentheses","generate-parentheses","M",P.RB],
+17:["Letter Combinations of a Phone Number","letter-combinations-of-a-phone-number","M",P.RB],79:["Word Search","word-search","M",P.RB],
+104:["Maximum Depth of Binary Tree","maximum-depth-of-binary-tree","E",P.TR],226:["Invert Binary Tree","invert-binary-tree","E",P.TR],
+100:["Same Tree","same-tree","E",P.TR],543:["Diameter of Binary Tree","diameter-of-binary-tree","E",P.TR],110:["Balanced Binary Tree","balanced-binary-tree","E",P.TR],
+572:["Subtree of Another Tree","subtree-of-another-tree","E",P.TR],102:["Binary Tree Level Order Traversal","binary-tree-level-order-traversal","M",P.TR],
+199:["Binary Tree Right Side View","binary-tree-right-side-view","M",P.TR],235:["Lowest Common Ancestor of a BST","lowest-common-ancestor-of-a-binary-search-tree","M",P.TR],
+98:["Validate Binary Search Tree","validate-binary-search-tree","M",P.TR],230:["Kth Smallest Element in a BST","kth-smallest-element-in-a-bst","M",P.TR],
+105:["Construct Binary Tree from Preorder and Inorder","construct-binary-tree-from-preorder-and-inorder-traversal","M",P.TR],
+124:["Binary Tree Maximum Path Sum","binary-tree-maximum-path-sum","H",P.TR],297:["Serialize and Deserialize Binary Tree","serialize-and-deserialize-binary-tree","H",P.TR],
+703:["Kth Largest Element in a Stream","kth-largest-element-in-a-stream","E",P.HP],1046:["Last Stone Weight","last-stone-weight","E",P.HP],
+215:["Kth Largest Element in an Array","kth-largest-element-in-an-array","M",P.HP],973:["K Closest Points to Origin","k-closest-points-to-origin","M",P.HP],
+621:["Task Scheduler","task-scheduler","M",P.HP],295:["Find Median from Data Stream","find-median-from-data-stream","H",P.HP],
+200:["Number of Islands","number-of-islands","M",P.GR],133:["Clone Graph","clone-graph","M",P.GR],695:["Max Area of Island","max-area-of-island","M",P.GR],
+994:["Rotting Oranges","rotting-oranges","M",P.GR],417:["Pacific Atlantic Water Flow","pacific-atlantic-water-flow","M",P.GR],
+207:["Course Schedule","course-schedule","M",P.GR],210:["Course Schedule II","course-schedule-ii","M",P.GR],684:["Redundant Connection","redundant-connection","M",P.GR],
+1319:["Number of Operations to Make Network Connected","number-of-operations-to-make-network-connected","M",P.GR],
+743:["Network Delay Time","network-delay-time","M",P.GR],787:["Cheapest Flights Within K Stops","cheapest-flights-within-k-stops","M",P.GR],
+127:["Word Ladder","word-ladder","H",P.GR],
+56:["Merge Intervals","merge-intervals","M",P.IG],57:["Insert Interval","insert-interval","M",P.IG],435:["Non-overlapping Intervals","non-overlapping-intervals","M",P.IG],
+452:["Minimum Number of Arrows to Burst Balloons","minimum-number-of-arrows-to-burst-balloons","M",P.IG],55:["Jump Game","jump-game","M",P.IG],
+45:["Jump Game II","jump-game-ii","M",P.IG],134:["Gas Station","gas-station","M",P.IG],763:["Partition Labels","partition-labels","M",P.IG],
+678:["Valid Parenthesis String","valid-parenthesis-string","M",P.IG],
+208:["Implement Trie (Prefix Tree)","implement-trie-prefix-tree","M",P.TI],211:["Design Add and Search Words Data Structure","design-add-and-search-words-data-structure","M",P.TI],
+70:["Climbing Stairs","climbing-stairs","E",P.DP],746:["Min Cost Climbing Stairs","min-cost-climbing-stairs","E",P.DP],198:["House Robber","house-robber","M",P.DP],
+213:["House Robber II","house-robber-ii","M",P.DP],5:["Longest Palindromic Substring","longest-palindromic-substring","M",P.DP],91:["Decode Ways","decode-ways","M",P.DP],
+322:["Coin Change","coin-change","M",P.DP],152:["Maximum Product Subarray","maximum-product-subarray","M",P.DP],139:["Word Break","word-break","M",P.DP],
+300:["Longest Increasing Subsequence","longest-increasing-subsequence","M",P.DP],416:["Partition Equal Subset Sum","partition-equal-subset-sum","M",P.DP],
+62:["Unique Paths","unique-paths","M",P.DP],1143:["Longest Common Subsequence","longest-common-subsequence","M",P.DP],518:["Coin Change II","coin-change-ii","M",P.DP],
+72:["Edit Distance","edit-distance","M",P.DP],309:["Best Time to Buy and Sell Stock with Cooldown","best-time-to-buy-and-sell-stock-with-cooldown","M",P.DP],
+494:["Target Sum","target-sum","M",P.DP],53:["Maximum Subarray","maximum-subarray","M",P.DP],64:["Minimum Path Sum","minimum-path-sum","M",P.DP],
+380:["Insert Delete GetRandom O(1)","insert-delete-getrandom-o1","M",P.DM],1797:["Design Authentication Manager","design-authentication-manager","M",P.DM],
+706:["Design HashMap","design-hashmap","E",P.DM],355:["Design Twitter","design-twitter","M",P.DM],1396:["Design Underground System","design-underground-system","M",P.DM],
+460:["LFU Cache","lfu-cache","H",P.DM],36:["Valid Sudoku","valid-sudoku","M",P.DM]
+};
+var DSA_WEEK=[
+ [1,217,242,49,347,238,128,125,15,75,42,121,643,3,424,567,209,76,509,231,50,344,78,46,39,22,20,155,150,735,84,704,35,278,33,153,875,981,21,141,876,19],
+ [143,496,17,79,104,226,100,543,110,572,102,199,235,98,105,124,297,703,1046,215,973,621,295,200,133,994,417,207,210,684,1319,743,787,127,57,435,452,55,45,134],
+ [70,746,198,213,5,91,322,152,139,300,416,62,1143,518,72,309,494,53,64,560,438,211,380,"W",1797,"W",706,"W",355,"W",1396,"W",460,"W",763,"W",678,"W"]
+];
+var DSA_SAT=[[11,904,739,206],[2,230,695,56,208],[1004,74,36,853]];
+
+/* ---------- block queues: [short, title, note] ---------- */
+var JS=[
+ ["KV store","Key-value store, levels 1–2: set, get, delete, scan by prefix","Plain class with a Map. Test with console.assert. Same shape as Anthropic's reported assessment."],
+ ["KV store TTL","Key-value store, levels 3–4: TTL, then backup and restore","Every call takes a timestamp. Restore must recompute remaining TTLs."],
+ ["Event emitter","EventEmitter: on, off, once, emit","Edge case: a listener that removes itself while emit is running."],
+ ["Promise pool","Promise pool: runWithLimit(tasks, n)","Results in input order. One failure must not kill the pool."],
+ ["Retry","Retry with exponential backoff, jitter and timeout","Make it cancellable with AbortController."],
+ ["Async crawler","Async web crawler: same host only, dedupe, concurrency limit","LC 1242 in JavaScript. Reported for Anthropic. Reuse your pool and retry."],
+ ["LRU cache","LRU cache, then add TTL","First with Map ordering, then with a doubly linked list."],
+ ["Rate limiter","Rate limiter: token bucket and sliding-window log","Per user, with an injectable clock so it's testable."],
+ ["Bank system","Banking system, levels 1–2: accounts, deposit, transfer, top spenders","Another commonly reported progressive assessment."],
+ ["Bank system 2","Banking system, levels 3–4: scheduled payments, merging accounts, history",""],
+ ["File system","In-memory file system: mkdir, ls, write, read, move, size","Directory size recursively at the end."],
+ ["Task scheduler","Task scheduler with dependencies","Topological sort, cycle detection, concurrency limit."],
+ ["Promise polyfills","Polyfills: Promise.all, allSettled, race, any","Explain each one's failure behaviour out loud."],
+ ["Debounce, throttle","Polyfills: debounce, throttle with leading and trailing, memoize with TTL",""],
+ ["Deep clone","Deep clone and deep equal","Handle cycles, Map, Set and Date."],
+ ["Event loop drill","Event loop: predict the output of 20 snippets","Microtasks vs macrotasks, async/await ordering."],
+ ["SSE parser","SSE stream parser for LLM output","Chunks split mid-line, tool-call JSON assembled across chunks."],
+ ["Cost meter","Token and cost meter with a credit check before each run","Per user, per model. Like the billing you built in NewCode."],
+ ["Request batcher","Request batcher: flush at N items or after T milliseconds","Each caller gets its own result back. A small version of Anthropic's most reported design question."],
+ ["Job queue","In-memory job queue: priorities, retries, dead-letter list",""],
+ ["Reactive store","Tiny reactive store: subscribe, selectors, batched updates","A minimal Zustand."],
+ ["JSON diff","Diff two JSON objects, then apply the patch",""],
+ ["Path utils","get, set and unset by path; flatten and unflatten objects",""],
+ ["Timed KV store","Timed: progressive KV store from a blank file, 90 minutes","No AI, no notes."],
+ ["Timed crawler","Timed: async crawler from scratch, 60 minutes",""],
+ ["Timed LRU","Timed: LRU cache with TTL, 45 minutes",""]
+];
+var REACT=[
+ ["Autocomplete","Autocomplete: debounce, cache, abort stale requests, keyboard navigation","Concept to revise: useEffect cleanup and race conditions."],
+ ["Virtual list","Infinite scroll, then a virtualised list of 10,000 rows","Concept: when React re-renders, React.memo, keys."],
+ ["Tabs and accordion","Accessible tabs and accordion","Concept: ARIA roles, focus management, compound components."],
+ ["Modal","Modal with a portal and a focus trap","Concept: portals, refs, useLayoutEffect vs useEffect."],
+ ["File explorer","File explorer tree: expand, add, rename, delete","Concept: normalised vs nested state."],
+ ["Data table","Data table: sort, filter, paginate","Concept: useMemo, derived state, never duplicating state."],
+ ["Streaming chat UI","Chat UI with streaming tokens, a stop button and retry","Concept: reading a fetch stream, AbortController. OpenAI's reported frontend round is a small piece of ChatGPT."],
+ ["Form hook","Form with your own useForm hook and validation","Concept: controlled vs uncontrolled inputs, custom hooks."],
+ ["Kanban","Kanban board with drag and drop","Concept: optimistic updates and rollback."],
+ ["Multi-step form","Multi-step form with conditional branching","Concept: state machines with useReducer. You've built this in NewForm."],
+ ["Undo and redo","Text editor with undo and redo","Concept: useReducer and the command pattern."],
+ ["Next.js data","Next.js App Router: server component, server action, streaming with Suspense","Concept: RSC vs client components, caching, revalidation. Vercel cares about this."],
+ ["Timed ChatGPT UI","Timed: ChatGPT-style UI with streaming in 60 minutes","No AI. Talk through decisions as you build."]
+];
+var NODE=[
+ ["Node event loop","Node event loop: phases, nextTick vs setImmediate","Predict the output of 10 snippets, then explain them."],
+ ["Streams","Streams: process a 1 GB file line by line with backpressure","Use stream.pipeline and handle errors properly."],
+ ["REST API","REST API with Hono: CRUD, Zod validation, error middleware","Write integration tests."],
+ ["Auth","Auth: access and refresh tokens, sessions vs JWT, password hashing",""],
+ ["Rate-limit middleware","Rate-limit middleware with a pluggable store","In-memory first, then a Redis-shaped interface."],
+ ["Cursor pagination","Offset vs cursor pagination on Postgres","Implement cursor pagination and explain why it's stable."],
+ ["Idempotency","Idempotency keys for POST /payments","Same key twice must return the same result."],
+ ["Background jobs","Queue plus worker with retries and backoff","BullMQ-style ideas, built small."],
+ ["Cache layer","Cache-aside with TTL and stampede protection",""],
+ ["Webhooks","Webhook receiver: signature check, dedupe, retries",""],
+ ["SSE endpoint","SSE endpoint that streams LLM tokens and stops when the client disconnects",""],
+ ["Worker threads","CPU-bound work: worker threads vs cluster","Measure before and after."],
+ ["Timed API","Timed: URL shortener API with tests in 60 minutes",""]
+];
+var FRI=[
+ ["TS types","TypeScript: generics, keyof, mapped and conditional types","Five easy type-challenges."],
+ ["Code review","Code review: review one of your own old PRs like a senior would","For each comment: what's wrong, why it matters, what to do instead. Approving is allowed."],
+ ["AI-assisted round","AI-assisted round, self-run: read, fix, extend, make it fast","Explore the files yourself first. Write 3–4 lines of pseudo-code as comments, then prompt Claude with the class and approach named. 50-minute timer. Run the code every time."],
+ ["TS types 2","TypeScript: infer and template literal types","Three medium type-challenges."],
+ ["Code review 2","Code review: read a merged vercel/ai PR and write your own review",""],
+ ["AI-assisted round 2","AI-assisted coding round on ChaiCode (optional, paid) or self-run","Afterwards: which prompt was vague, which was precise?"],
+ ["TS types 3","TypeScript: discriminated unions and exhaustive checks","Type a reducer and an API client."],
+ ["Code review 3","Code review round on ChaiCode (optional, paid) or any OSS PR",""],
+ ["AI-assisted round 3","AI-assisted round, self-run on a fresh small repo","Pseudo-code in comments first, then prompt."],
+ ["TS types 4","TypeScript: a typed event emitter and a typed fetch client",""],
+ ["Code review 4","Code review: security and performance pass on one of your products",""],
+ ["AI-assisted round 4","AI-assisted round, self-run, 50 minutes","Pseudo-code in comments first, then prompt."],
+ ["TS types 5","TypeScript: write the types for a small SDK",""]
+];
+var DES=[
+ ["Ch1 redo", "Design principles, ch 1 What Good Design Means: lessons 1.3 to 1.8", "Redo mode: open each coding lesson and solve it again without looking at your old answer. Any lesson you can't redo goes on your WEAK list. Then explain, in your own words, why good design is about change."],
+ ["Ch2 redo", "Ch 2 Designing Functions: 2.1 names, 2.2 one job, 2.3 parameters", "Redo mode: open each coding lesson and solve it again without looking at your old answer. Any lesson you can't redo goes on your WEAK list."],
+ ["Ch2 redo", "Ch 2: 2.4 pure functions, 2.5 guard clauses, 2.6 apply it: the shift handover", "Redo mode: open each coding lesson and solve it again without looking at your old answer. Any lesson you can't redo goes on your WEAK list."],
+ ["Ch3 redo", "Ch 3 Modules, Cohesion, Coupling: 3.1 to 3.5", "Redo mode: open each coding lesson and solve it again without looking at your old answer. Any lesson you can't redo goes on your WEAK list."],
+ ["Ch3 redo", "Ch 3: 3.6 dependency direction, 3.7 apply it: the ticket desk", "Redo mode: open each coding lesson and solve it again without looking at your old answer. Any lesson you can't redo goes on your WEAK list. Dependency direction comes back in LLD, so go slow here."],
+ ["Ch4 redo", "Ch 4 DRY, KISS, YAGNI: all lessons, including 4.6 the archive sweep", "Redo mode: open each coding lesson and solve it again without looking at your old answer. Any lesson you can't redo goes on your WEAK list. Spend extra time on 4.3, when DRY goes wrong."],
+ ["Ch5 redo", "Ch 5 Composition over Inheritance: 5.1 to 5.7", "Redo mode: open each coding lesson and solve it again without looking at your old answer. Any lesson you can't redo goes on your WEAK list. The 5.4 Decorator lesson returns in LLD."],
+ ["Ch6 SOLID", "Ch 6 SOLID: 6.1 to 6.3, single responsibility and open-closed", "New ground: attempt every coding lesson yourself first. After each one, write one line: which principle, and why it helps."],
+ ["Ch6 SOLID", "Ch 6: 6.4 Liskov, 6.5 interface segregation, 6.6 dependency inversion", "New ground: attempt every coding lesson yourself first. After each one, write one line: which principle, and why it helps. Interviewers often ask for a Liskov violation example."],
+ ["Ch6 SOLID", "Ch 6: 6.7 apply it: the assignment desk, 6.8, quick check", "New ground: attempt every coding lesson yourself first. After each one, write one line: which principle, and why it helps."],
+ ["Ch7 errors", "Ch 7 Errors, State, Boundaries: 7.1 to 7.3", "New ground: attempt every coding lesson yourself first. After each one, write one line: which principle, and why it helps. 7.3, making invalid states unrepresentable, pairs well with TypeScript."],
+ ["Ch7 errors", "Ch 7: 7.4 immutability, 7.5 one way to fail", "New ground: attempt every coding lesson yourself first. After each one, write one line: which principle, and why it helps."],
+ ["Ch7 errors", "Ch 7: 7.6 apply it: the ticket lifecycle, 7.7, quick check", "New ground: attempt every coding lesson yourself first. After each one, write one line: which principle, and why it helps."],
+ ["Ch8 testability", "Ch 8 Designing for Testability: 8.1 to 8.4", "New ground: attempt every coding lesson yourself first. After each one, write one line: which principle, and why it helps. Fakes, stubs and spies are common interview vocabulary."],
+ ["Ch8 testability", "Ch 8: 8.5 to 8.7, including apply it: a module you can run", "New ground: attempt every coding lesson yourself first. After each one, write one line: which principle, and why it helps."],
+ ["Ch9 patterns", "Ch 9 Design Patterns: 9.1 to 9.3, Factory and Observer", "New ground: attempt every coding lesson yourself first. After each one, write one line: which principle, and why it helps. These are the first patterns you'll use in LLD."],
+ ["Ch9 patterns", "Ch 9: 9.4 Repository, 9.5 apply it: the intake desk, 9.6, quick check", "New ground: attempt every coding lesson yourself first. After each one, write one line: which principle, and why it helps."],
+ ["Capstone", "Ch 10 Capstone: 10.1 to 10.3, meet the mess and build a safety net", "Before changing anything, list every smell you can see."],
+ ["Capstone", "Ch 10: 10.4 and 10.5", "Compare your refactor with what the course does."],
+ ["Capstone", "Ch 10: 10.6 to 10.8, course done", "Write down the one change you were tempted to make and shouldn't have."],
+ ["Course summary", "One page: all 10 chapters in your own words, closed book", "Tomorrow is the checkpoint, and Claude tests you on it."],
+ ["Real refactor", "Refactor one module of NewForm or NewCode using the course", "Before and after notes. This becomes a LinkedIn post."],
+ ["LLD method", "LLD method on a library system", "Scope, pieces, shape, walkthrough, then a changed requirement."],
+ ["Strategy, Factory", "Strategy and Factory patterns in TypeScript", "Example: a model router like NewCode's."],
+ ["Observer, State", "Observer and State patterns", "Example: an agent run moving through states."],
+ ["Decorator, Adapter", "Decorator and Adapter patterns", "Example: wrapping an LLM client with logging and retries."],
+ ["Command pattern", "Command pattern", "Undo and redo, queued operations."],
+ ["Builder, DI", "Builder and dependency injection", "Why DI makes code testable. Ties back to course chapter 8."],
+ ["Parking lot", "LLD: parking lot, 75 minutes", ""],
+ ["Rate limiter LLD", "LLD: rate limiter", "Interfaces, strategy injection, clock injection."],
+ ["Notification LLD", "LLD: notification service", "Channels, retries, templates."],
+ ["Elevator", "LLD: elevator system", ""],
+ ["Vending machine", "LLD: vending machine with the State pattern", ""],
+ ["Movie booking", "LLD: movie ticket booking", "Seat locking and two people clicking the same seat."],
+ ["Splitwise", "LLD: expense splitting app", ""],
+ ["Cache design", "LLD: LRU and LFU behind one cache interface", ""],
+ ["Logger", "LLD: logging framework with chain of responsibility", ""],
+ ["Payment router", "LLD: payment router", "Strategy, retries, idempotency."],
+ ["Meeting rooms", "LLD: meeting room scheduler", ""],
+ ["Cart and discounts", "LLD: shopping cart with discount rules", "Rule objects instead of if-else chains."],
+ ["Food delivery", "LLD: food delivery order lifecycle", ""],
+ ["Cheat sheet", "LLD cheat sheet in your own words", ""],
+ ["Agent framework", "LLD: agent tool-calling framework", "Tool registry, schema validation, plan and build modes."],
+ ["Model router", "LLD: LLM model router with fallback and cost rules", ""],
+ ["Memory store", "LLD: conversation memory store", "Short-term window, long-term extraction, retrieval."],
+ ["Billing LLD", "LLD: usage metering and credit billing", ""],
+ ["Plugin registry", "LLD: an MCP-style plugin registry", ""],
+ ["Workflow engine", "LLD: resumable workflow engine", "Steps, retries, checkpoints, like LangGraph."],
+ ["Message broker", "LLD: in-process pub-sub broker", ""],
+ ["API-key tiers", "LLD: per-API-key rate limits with plan tiers", ""],
+ ["Timed elevator", "Timed LLD: elevator, 45 minutes", ""],
+ ["Timed booking", "Timed LLD: movie booking, 45 minutes", ""],
+ ["Timed parking lot", "Timed LLD: parking lot, 45 minutes", ""],
+ ["Timed payments", "Timed LLD: payment router, 45 minutes", ""],
+ ["Timed Splitwise", "Timed LLD: expense splitting, 45 minutes", ""],
+ ["Timed agent", "Timed LLD: agent framework, 45 minutes", ""],
+ ["LLD round", "LLD round on ChaiCode (optional, paid) or Claude as interviewer", ""],
+ ["Timed vending", "Timed LLD: vending machine, 45 minutes", ""],
+ ["Redo weakest LLD", "Redo the LLD you scored lowest on, 45 minutes", ""],
+ ["Final cheat sheet", "Final LLD cheat sheet", ""]
+];
+var HLD=[
+ ["Basics","Client-server basics and latency numbers","Draw the life of one HTTP request on Excalidraw."],
+ ["Scaling","Vertical vs horizontal scaling, load balancers",""],
+ ["Caching","Caching: cache-aside, write-through, eviction, CDN","Where can a cache lie to you?"],
+ ["Databases","SQL vs NoSQL and indexing","B-tree intuition: fast reads, slower writes."],
+ ["Replication","Replication and sharding","Leader-follower, read replicas, choosing a shard key."],
+ ["CAP","CAP theorem and consistency models",""],
+ ["Queues","Message queues and background workers","At-least-once delivery, idempotency, dead-letter queues."],
+ ["Rate limiting","Rate limiting algorithms and consistent hashing",""],
+ ["URL shortener","Design a URL shortener, 45 minutes","Goals, data, API, sketch, hard parts, wrap-up."],
+ ["Distributed limiter","Distributed rate limiter with Redis","Follow-up you will get: Redis is down, now what? Compare fail-open with a local in-memory limiter, fail-closed for critical APIs, and a circuit breaker. Falling back to the database risks a cascading failure."],
+ ["Notifications","Notification system",""],
+ ["Chat app","Chat app","WebSockets, presence, receipts, ordering."],
+ ["News feed","News feed","Fan-out on write vs read."],
+ ["LLM chat app","LLM chat app with streaming","Like AIChatWave: SSE, history, memory, rate limits."],
+ ["RAG pipeline","RAG pipeline","Ingest, chunk, embed, retrieve, evaluate."],
+ ["Coding agent","AI coding agent backend","Agent loop, tool sandbox, plan and build modes."],
+ ["Metering","Usage metering and credit billing","Idempotency keys, a ledger, pre-checks."],
+ ["Voice agent","Voice agent platform","Speech-to-text, LLM, text-to-speech, latency per hop."],
+ ["Speed drill","Excalidraw speed drill: URL shortener in 20 minutes",""],
+ ["Spoken mock","Spoken mock: URL shortener in 45 minutes","Record yourself and listen back."],
+ ["Summaries","One-line summary for every design so far",""],
+ ["API design","API design: REST vs gRPC vs GraphQL, pagination, idempotency",""],
+ ["Observability","Observability: logs, metrics, traces",""],
+ ["Job queue","Distributed job queue","Reported at Anthropic."],
+ ["File cache","File cache system","Reported at Anthropic."],
+ ["Web crawler","Distributed web crawler",""],
+ ["Typeahead","Search autocomplete",""],
+ ["Deploy platform","Deployment platform with preview URLs","Vercel-shaped: builds, artifacts, routing."],
+ ["Edge and CDN","CDN, edge caching and incremental regeneration","Vercel-shaped."],
+ ["Serverless","Serverless functions platform","Cold starts, isolation, scaling to zero."],
+ ["Collab editor","Collaborative editor","OT vs CRDT at a high level."],
+ ["Payments","Payment system",""],
+ ["File storage","File storage and sharing, like Google Drive",""],
+ ["Leaderboard","Real-time leaderboard",""],
+ ["Tatkal rush","Ticket booking under a traffic spike","Queues, inventory locking, fairness."],
+ ["Audio streaming","Audio and video streaming basics","Chunks, adaptive bitrate. Useful for ElevenLabs."],
+ ["Log pipeline","Metrics and logging pipeline",""],
+ ["ChatGPT","ChatGPT end to end","Client, API, streaming, history, rate limits. OpenAI-shaped."],
+ ["Webhooks","Webhook delivery system",""],
+ ["Flags at scale","Feature flags at scale",""],
+ ["Spoken mock 2","Spoken mock: chat app, 45 minutes",""],
+ ["Summaries 2","Update your design summaries",""],
+ ["Inference batching","Inference batching system","Most reported Anthropic design question. Batch size vs latency."],
+ ["Inference API","LLM inference API: streaming, KV cache, GPU utilisation",""],
+ ["LLM gateway","LLM gateway across providers","Routing, fallbacks, cost tracking."],
+ ["Batch API","Async batch inference API: submit a job, poll for results",""],
+ ["Support agent","Agentic customer-support system with guardrails",""],
+ ["Voice latency","Voice agent latency deep dive","Interruptions, partial transcripts, streaming TTS."],
+ ["TTS at scale","Text-to-speech service at scale","ElevenLabs-shaped."],
+ ["RAG at scale","RAG at scale with evaluation",""],
+ ["Eval pipeline","LLM evaluation pipeline",""],
+ ["Search 1B docs","Distributed search over a billion documents",""],
+ ["Model rollout","Distributing model artifacts to a fleet of servers",""],
+ ["Timed batching","Timed: inference batching, 45 minutes",""],
+ ["Timed ChatGPT","Timed: ChatGPT, 45 minutes",""],
+ ["Timed deploy","Timed: deployment platform, 45 minutes",""],
+ ["Timed Tatkal","Timed: ticket booking spike, 45 minutes",""],
+ ["Timed job queue","Timed: distributed job queue, 45 minutes",""],
+ ["SD round","System design round on ChaiCode (optional, paid) or Claude as interviewer",""],
+ ["Final summaries","Final one-page summary of every design",""]
+];
+var BUILD=[
+ ["Fork vercel/ai, run tests locally, read the contributing guide","Post #1 on LinkedIn: announce your 90-day plan."],
+ ["Shortlist 3 issues on vercel/ai","Prefer bugs with a repro or a good-first-issue label."],
+ ["Reproduce one shortlisted issue locally","Write the repro steps as if posting them on GitHub."],
+ ["Comment on the issue and start a fix branch",""],
+ ["Write the fix and its tests",""],
+ ["Open PR #1 as a draft","Ask maintainers whether the approach looks right."],
+ ["Read the ElevenLabs Agents docs, write a one-page spec","Idea: an AI mock interviewer with a voice."],
+ ["Voice agent: set up the repo","Next.js plus the ElevenLabs SDK. Get one call working."],
+ ["Post #2: what you learned building a promise pool",""],
+ ["Voice agent: question bank and agent prompt",""],
+ ["Iterate on PR #1, pick issue #2",""],
+ ["Voice agent: transcript plus an LLM feedback score",""],
+ ["Voice agent MVP working end to end",""],
+ ["Post #3: design principles, before and after",""],
+ ["Share the voice agent with 5 people","Ask each one a specific question."],
+ ["Work on PR #2",""],
+ ["Blog draft: how you built the voice agent",""],
+ ["Fix the top piece of user feedback",""],
+ ["Publish the blog and post #4 with a demo video",""],
+ ["Check PR status, list issues for the next phase",""],
+ ["Update resume and LinkedIn with the PR and voice agent",""],
+ ["Voice agent v2: interruption handling",""],
+ ["Voice agent: measure time to first audio","Real numbers you can quote in interviews."],
+ ["Voice agent: landing page and deploy",""],
+ ["Get the first 10 users","Post in communities where people prepare for interviews."],
+ ["Collect feedback, write down 3 numbers",""],
+ ["Finish PR #2",""],
+ ["Open-source an MCP server for one of your products",""],
+ ["MCP server: docs and npm publish",""],
+ ["Post #5: building the MCP server",""],
+ ["One product, one real user story","10 users on NewCode or AIChatWave, or a freelance case study."],
+ ["Outreach list: 20 engineers at your target companies","Only people whose work you've actually read."],
+ ["Blog: plan vs build mode in a coding agent",""],
+ ["Post #6",""],
+ ["Start PR #3",""],
+ ["Voice agent: evaluate the quality of its feedback",""],
+ ["Post #7 with real numbers",""],
+ ["Resume variants: Anthropic and OpenAI, Vercel, ElevenLabs",""],
+ ["Portfolio site: demos and short videos",""],
+ ["Submit PR #3",""],
+ ["Send 5 messages from your outreach list","Lead with something you built, not with a request."],
+ ["Phase 2 review: what got noticed and what didn't",""],
+ ["Apply: ElevenLabs India roles and Vercel remote India roles","Check careers pages first."],
+ ["Ask for referrals from people you've already talked to",""],
+ ["Vercel product critique: two features you use, what you'd change","Vercel interviews reportedly include a product critique."],
+ ["Write \"Why Anthropic?\" in 200 words","Anthropic's application asks it, and the values round goes deep."],
+ ["Behavioural stories 1–2: ownership and a failure","STAR format, under 2 minutes each."],
+ ["Behavioural stories 3–4: conflict and influence without authority",""],
+ ["Behavioural stories 5–6: shipping under pressure, learning fast",""],
+ ["Project deep dive rehearsal: NewCode in 10 minutes","Decisions, trade-offs, what you'd change."],
+ ["Project deep dive rehearsal: AIChatWave in 10 minutes",""],
+ ["Post #8",""],
+ ["Follow up on applications and messages",""],
+ ["Second round of applications","Include OpenAI and Anthropic India roles if they've opened."],
+ ["Behavioural mock with a friend",""],
+ ["Post #9: what 90 days of focused prep looked like",""],
+ ["Interview tracker: every application and its next step",""],
+ ["\"Tell me about yourself\" in 90 seconds","Record it three times. Keep the best one."],
+ ["Final portfolio polish",""],
+ ["Plan the next 30 days",""]
+];
+var MOCKS=[
+ ["60-minute coding mock: 3Sum (LC 15)","Claude or a peer as interviewer. Say every thought out loud."],
+ ["Practical mock: in-memory rate limiter in 60 minutes","No AI. The interviewer adds a requirement every 15 minutes."],
+ ["DSA mock: two mediums in 60 minutes","Claude picks from patterns you've covered."],
+ ["Anthropic-style practical: progressive KV store, 90 minutes","A fresh variant. Timer, no AI, no notes."],
+ ["React mock: autocomplete in 60 minutes","No AI. Narrate trade-offs as you go."],
+ ["HLD mock: chat app, 45 minutes, spoken","Record it and listen back."],
+ ["AI-assisted round mock","ChaiCode round or self-run. Grade your own prompts afterwards."],
+ ["LLD mock: movie ticket booking, 45 minutes","Scope, pieces, shape, walkthrough, then a changed requirement."],
+ ["Practical mock: progressive banking system, 90 minutes",""],
+ ["Code review mock: one PR, 30 minutes",""],
+ ["HLD mock: inference batching system, 45 minutes","The most reported Anthropic design question."],
+ ["OpenAI-style mock: ChatGPT UI with streaming, 60 minutes",""],
+ ["Full loop rehearsal: practical coding, then HLD, back to back","Like a real onsite day."]
+];
+var INTERNALS={
+ "2026-10-22":["B+ tree indexes","How an index lookup walks a B+ tree. What a unique index costs on every write, and when it becomes a bottleneck."],
+ "2026-10-29":["Transactions and isolation levels","ACID, then read committed vs repeatable read vs serializable. Name the anomaly each one prevents: dirty read, non-repeatable read, phantom, lost update."],
+ "2026-11-05":["Locks","Row locks, SELECT ... FOR UPDATE, optimistic vs pessimistic locking. When would you pick each?"],
+ "2026-11-12":["Deadlocks in theory","The four conditions for a deadlock and how breaking any one prevents it. Then a database deadlock example with two transactions."],
+ "2026-11-19":["Write a deadlock yourself","In Node, two async locks taken in opposite order so the program hangs. Then fix it with a fixed lock order. No AI."],
+ "2026-11-26":["Race conditions","Check-then-act bugs, like a duplicate queue entry from two devices at once. Fix with a unique constraint, an upsert, or an idempotency key."]
+};
+var WARMUP=[
+ ["2026-10-06","LC 268 Missing Number","Arrays. Try a sum-based idea before reaching for a set.","dsa"],
+ ["2026-10-07", "Course lesson 5.6: apply it, the escalation alert", "You were already on this one. Go slowly, no rushing for XP.", "des"],
+ ["2026-10-08","LC 485 Max Consecutive Ones","Arrays. One pass, one counter.","dsa"],
+ ["2026-10-09", "Course lesson 5.7 quick check, then explain composition vs inheritance in 5 lines", "Use one example from your own code.", "des"],
+ ["2026-10-10","LC 1480 Running Sum of 1d Array","Prefix sums. This idea comes back in Product of Array Except Self and Subarray Sum Equals K.","dsa"],
+ ["2026-10-11","Optional: sum an array recursively and trace the call stack on paper","Skip it if you're busy. Rest is fine.","dsa"],
+ ["2026-10-12", "One job per function, the idea from lesson 2.2, on your own code", "Find one function in NewForm or NewCode doing two jobs and split it. Write two lines on why.", "des"],
+ ["2026-10-13","LC 27 Remove Element","Two pointers, in place.","dsa"],
+ ["2026-10-14", "Pure functions, the idea from lesson 2.4, on your own code", "Refactor one function so it has no side effects. Then glance at tomorrow's Day 1.", "des"]
+];
+var GOALS=[
+ ["Explain the pattern behind all 46 Phase 1 DSA problems without notes","Build the 4-level KV store in 90 minutes with no AI","All 10 chapters of the design principles course done properly, and the oral test passed","React: autocomplete, virtual list, modal built from scratch","Node: event loop, streams, a tested REST API","About 20 systems designed on Excalidraw","PR #1 open on vercel/ai, voice agent MVP live, 4 posts out"],
+ ["Trees, heaps, graphs, intervals: 46 more problems","10 LLD systems designed, 4 of them timed","Vercel-shaped and Anthropic-reported HLD designs done","React streaming chat UI built without AI","Two PRs on vercel/ai, an MCP server published, voice agent with real users and numbers","Resume variants ready for each company"],
+ ["DP basics plus design-style DSA, WEAK bucket cleared","AI system design: inference batching, LLM gateway, voice latency","Six behavioural stories and two project deep dives rehearsed","Applications and referrals out to ElevenLabs and Vercel first","One full mock loop passed back to back"]
+];
+var PHASE_NAMES=["Phase 1: foundation","Phase 2: build depth","Phase 3: be seen, get interviews"];
+var HOLIDAYS={"2026-12-25":"Christmas","2027-01-01":"New Year's Day"};
+
+/* ---------- date helpers ---------- */
+function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function parse(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2]);}
+function addDays(s,n){var d=parse(s);d.setDate(d.getDate()+n);return iso(d);}
+function diffDays(a,b){return Math.round((parse(b)-parse(a))/86400000);}
+function todayISO(){return iso(new Date());}
+function fmt(s){return parse(s).toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"});}
+function fmtShort(s){return parse(s).toLocaleDateString("en-IN",{day:"numeric",month:"short"});}
+function t(k,title,note){return {k:k,title:title,note:note||""};}
+function qName(lc){return "LC "+lc+" "+Q[lc][0];}
+
+/* ---------- build the 90 days ---------- */
+var START="2026-10-15",ALL=[],DAYOF={};
+(function(){
+  var qi={js:0,react:0,node:0,fri:0,des:0,hld:0,build:0,mock:0};
+  var dq=[0,0,0],sq=[0,0,0];
+  var week={js:[],hld:[]};
+  function take(name,arr){var it=arr[qi[name]];if(!it)it=arr[arr.length-1];qi[name]++;return it;}
+  for(var i=0;i<90;i++){
+    var date=addDays(START,i),idx=i+1,ph=idx<=30?0:idx<=60?1:2,wd=parse(date).getDay();
+    var day={idx:idx,date:date,phase:ph,tasks:[],dsa:[]};
+    if(idx===30||idx===60||idx===90){
+      day.kind="check";day.focus=PHASE_NAMES[ph].split(":")[0]+" checkpoint";
+      day.tasks=[
+        t("dsa","Two unseen mediums in 60 minutes",idx===90?"One of them DP. Say \"checkpoint\" and Claude picks them.":"Say \"checkpoint\" and Claude picks them."),
+        idx===60?t("react","Timed React build, 60 minutes","Claude picks the component. No AI."):t("js","Progressive practical, 90 minutes","No notes, no AI."),
+        idx===30?t("des","Oral test: all 10 chapters of design principles","Closed book, lots of why questions. Say \"test me on design principles\"."):t("hld","Spoken HLD round, 45 minutes",idx===90?"Inference batching or ChatGPT.":"Claude picks the system."),
+        t("rev",PHASE_NAMES[ph].split(":")[0]+" scorecard","Tick the goals at the top of this phase. Decide what changes next.")
+      ];
+    }else if(HOLIDAYS[date]){
+      day.kind="holiday";day.focus=HOLIDAYS[date]+": light day";
+      day.tasks=[t("rev","30 minutes on whatever the DSA sheet says is due","Then the day is yours.")];
+    }else if(wd===6){
+      day.kind="mock";var m=take("mock",MOCKS),lc=DSA_SAT[ph][sq[ph]++];
+      day.focus="Mock day";
+      day.tasks=[t("mock",m[0],m[1])];
+      if(lc){day.dsa.push(lc);day.tasks.push(t("dsa","Unseen: "+qName(lc),"Timer on, think out loud. Pattern: "+Q[lc][3]+"."));}
+      day.tasks.push(t("rev","Weekly review, 30 minutes","What clicked, what didn't. Update your NEW / LEARNING / KNOWN / WEAK buckets."));
+      day.tasks.push(t("build","Light build session, then the evening off",""));
+    }else if(wd===0){
+      day.kind="rev";day.focus="Revision day";
+      var rb=week.js.length?week.js[0]:"one coding problem from this week",rd=week.hld.length?week.hld[week.hld.length-1]:"one design from this week";
+      day.tasks=[
+        t("rev","Closed-book redo of every DSA problem due today","The DSA sheet tab lists them. Anything you can't redo goes to WEAK."),
+        t("js","Rebuild from a blank file: "+rb,"60-minute timer, no notes."),
+        t("hld","Redraw from memory: "+rd,"Then compare with your notes."),
+        t("rev","Off after 3 PM","Rest is part of the plan.")
+      ];
+      week={js:[],hld:[]};
+    }else{
+      day.kind="work";
+      var pair=[DSA_WEEK[ph][dq[ph]++],DSA_WEEK[ph][dq[ph]++]].filter(function(x){return x!==undefined;});
+      var names=[],weak=false,pats=[];
+      pair.forEach(function(x){if(x==="W")weak=true;else{day.dsa.push(x);names.push(qName(x));if(pats.indexOf(Q[x][3])<0)pats.push(Q[x][3]);}});
+      var dTitle=names.join(" and ")+(weak?" and one WEAK redo":"");
+      var dNote=(pats.length?"Pattern: "+pats.join(", ")+". ":"")+(weak?"Pick the WEAK problem from your sheet and redo it closed book. ":"")+"20 minutes alone before any hint.";
+      var ck,item;
+      if(wd===2){ck="react";item=take("react",REACT);}
+      else if(wd===4){ck="node";item=take("node",NODE);}
+      else if(wd===5){ck="fri";item=take("fri",FRI);}
+      else{ck="js";item=take("js",JS);week.js.push(item[0]);}
+      var de=take("des",DES),h=take("hld",HLD),b=take("build",BUILD);week.hld.push(h[1]);
+      day.focus=(pats[0]||"DSA")+", "+item[0];
+      day.tasks=[t("dsa",dTitle||"DSA",dNote),t(ck,item[1],item[2])];
+      if(INTERNALS[date])day.tasks.push(t("db",INTERNALS[date][0],INTERNALS[date][1]));
+      day.tasks.push(t("des",de[1],de[2]),t("hld",h[1],h[2]),t("build",b[0],b[1]));
+    }
+    day.dsa.forEach(function(lc){DAYOF[lc]=idx;});
+    ALL.push(day);
+  }
+})();
+
+/* ---------- state ---------- */
+var ticks={},sheet={};
+try{var s1=localStorage.getItem("p90-ticks");if(s1)ticks=JSON.parse(s1)||{};}catch(e){}
+try{var s2=localStorage.getItem("p1-sheet");if(s2)sheet=JSON.parse(s2)||{};}catch(e){}
+var dbDoc=null,timer=null;
+function save(){
+  try{localStorage.setItem("p90-ticks",JSON.stringify(ticks));localStorage.setItem("p1-sheet",JSON.stringify(sheet));}catch(e){}
+  if(!dbDoc)return;
+  clearTimeout(timer);
+  timer=setTimeout(function(){dbDoc.update({ticks90:ticks,sheet:sheet}).catch(function(){return dbDoc.set({ticks90:ticks,sheet:sheet});}).then(function(){setSync("Synced to your account.");}).catch(function(){setSync("Couldn't sync. Progress is still saved in this browser.");});},700);
+}
+function setSync(m){document.getElementById("sync").textContent=m;}
+function key(d,i){return d.date+"#"+i;}
+function doneCount(d){var c=0;d.tasks.forEach(function(_,i){if(ticks[key(d,i)])c++;});return c;}
+
+/* ---------- plan view ---------- */
+function weekStart(s){var d=parse(s),w=d.getDay(),back=w===0?6:w-1;d.setDate(d.getDate()-back);return iso(d);}
+function renderLegend(){
+  var l=document.getElementById("legend");l.innerHTML="";
+  ["dsa","js","react","node","db","fri","des","hld","build"].forEach(function(k){var s=document.createElement("span");s.innerHTML='<i class="dot" style="background:'+T[k].color+'"></i>';s.appendChild(document.createTextNode(T[k].label.replace(", no AI","")));l.appendChild(s);});
+  var x=document.createElement("span");x.textContent="Dashed = mock, bold = checkpoint";l.appendChild(x);
+}
+var firstPlan=true;
+function render(){
+  var today=todayISO(),total=0,done=0;
+  var strips=document.getElementById("strips");strips.innerHTML="";
+  [0,1,2].forEach(function(ph){
+    var row=document.createElement("div");row.className="prow";
+    var lab=document.createElement("div");lab.className="pl";lab.innerHTML="<b>Phase "+(ph+1)+"</b>";lab.appendChild(document.createTextNode(fmtShort(ALL[ph*30].date)+" to "+fmtShort(ALL[ph*30+29].date)));
+    var st=document.createElement("div");st.className="strip";
+    ALL.slice(ph*30,ph*30+30).forEach(function(d){
+      var c=doneCount(d),n=d.tasks.length;total+=n;done+=c;
+      var b=document.createElement("button");b.type="button";
+      b.className="cell"+(d.date===today?" today":"")+(d.kind==="mock"?" mock":"")+(d.kind==="check"?" check":"")+(c===n?" full":"");
+      b.setAttribute("aria-label","Day "+d.idx+", "+fmt(d.date)+", "+c+" of "+n+" done");
+      b.innerHTML='<span class="fill" style="height:'+(c/n*100)+'%"></span><span class="n">'+d.idx+'</span>';
+      b.onclick=function(){openDay(d.idx);};
+      st.appendChild(b);
+    });
+    row.appendChild(lab);row.appendChild(st);strips.appendChild(row);
+  });
+  document.getElementById("pct").textContent=Math.round(done/total*100)+"% done";
+
+  var wrap=document.getElementById("phases");
+  var open={};wrap.querySelectorAll("details[open]").forEach(function(x){open[x.id]=1;});
+  wrap.innerHTML="";
+  var todayWeek=today<START?"":weekStart(today);
+  [0,1,2].forEach(function(ph){
+    var sec=document.createElement("section");sec.className="phase";
+    var h=document.createElement("h3");h.textContent=PHASE_NAMES[ph];sec.appendChild(h);
+    var dt=document.createElement("p");dt.className="dates";dt.textContent=fmt(ALL[ph*30].date)+" to "+fmt(ALL[ph*30+29].date)+", days "+(ph*30+1)+" to "+(ph*30+30);sec.appendChild(dt);
+    var g=document.createElement("details");g.className="goal";g.id="goal-"+ph;if(open[g.id])g.open=true;
+    var gs=document.createElement("summary");gs.textContent="This phase is done when…";g.appendChild(gs);
+    var gu=document.createElement("ul");GOALS[ph].forEach(function(x){var li=document.createElement("li");li.textContent=x;gu.appendChild(li);});g.appendChild(gu);sec.appendChild(g);
+    var days=ALL.slice(ph*30,ph*30+30),groups=[],cur=null;
+    days.forEach(function(d){var ws=weekStart(d.date);if(!cur||cur.ws!==ws){cur={ws:ws,days:[]};groups.push(cur);}cur.days.push(d);});
+    groups.forEach(function(gr){
+      var wd=document.createElement("details");wd.className="week";wd.id="w-"+ph+"-"+gr.ws;
+      var c=0,n=0;gr.days.forEach(function(d){c+=doneCount(d);n+=d.tasks.length;});
+      if(open[wd.id]||(firstPlan&&gr.ws===todayWeek))wd.open=true;
+      var su=document.createElement("summary");
+      su.innerHTML='<span class="wt">Days '+gr.days[0].idx+'–'+gr.days[gr.days.length-1].idx+'<small>'+fmtShort(gr.days[0].date)+' to '+fmtShort(gr.days[gr.days.length-1].date)+'</small></span><span><span class="badge'+(c===n?" ok":"")+'">'+c+' / '+n+'</span> <span class="chev" aria-hidden="true">›</span></span>';
+      wd.appendChild(su);
+      var body=document.createElement("div");body.className="wbody";
+      gr.days.forEach(function(d){body.appendChild(dayEl(d,today,open));});
+      wd.appendChild(body);sec.appendChild(wd);
+    });
+    wrap.appendChild(sec);
+  });
+  if(firstPlan){firstPlan=false;var el=document.querySelector("#view-plan .today-d");if(el&&!document.getElementById("view-plan").hidden)setTimeout(function(){el.scrollIntoView({block:"start"});},60);}
+}
+function dayEl(d,today,open){
+  var c=doneCount(d),n=d.tasks.length;
+  var det=document.createElement("details");det.className="day"+(d.date===today?" today-d":"");det.id="day-"+d.idx;
+  if(open[det.id]||(firstPlan&&d.date===today))det.open=true;
+  var tag={mock:"Mock day",rev:"Revision",check:"Checkpoint",holiday:"Light day"}[d.kind]||(n+" blocks");
+  var su=document.createElement("summary");
+  su.innerHTML='<span class="dn">'+d.idx+'<small>'+fmt(d.date)+'</small></span><span class="sumtxt"><b></b><span>'+(d.date===today?"Today":tag)+'</span></span><span class="badge'+(c===n?" ok":"")+'">'+c+" / "+n+'</span>';
+  su.querySelector("b").textContent=d.focus;
+  det.appendChild(su);
+  var ul=document.createElement("ul");ul.className="tasks";
+  d.tasks.forEach(function(tk,i){
+    var info=T[tk.k],id="cb-"+d.idx+"-"+i,on=!!ticks[key(d,i)];
+    var li=document.createElement("li");li.className="task"+(on?" checked":"");
+    li.innerHTML='<input type="checkbox" id="'+id+'"'+(on?" checked":"")+'><label for="'+id+'"><span class="tk"><span class="tr" style="color:'+info.color+'"></span>'+(info.time&&d.kind==="work"?'<span>'+info.time+'</span>':'')+'</span><span class="tt"></span><div class="tn"></div></label>';
+    li.querySelector(".tr").textContent=info.label;
+    li.querySelector(".tt").textContent=tk.title;
+    var tn=li.querySelector(".tn");if(tk.note)tn.textContent=tk.note;else tn.remove();
+    li.querySelector("input").addEventListener("change",function(e){if(e.target.checked)ticks[key(d,i)]=true;else delete ticks[key(d,i)];save();render();});
+    ul.appendChild(li);
+  });
+  det.appendChild(ul);return det;
+}
+function renderWarmup(){
+  var today=todayISO(),sec=document.getElementById("warmup-sec"),openIds={};
+  sec.querySelectorAll("details[open]").forEach(function(x){openIds[x.id]=1;});
+  sec.innerHTML="";
+  var h=document.createElement("h3");h.textContent="Warm-up: 6 to 14 October";sec.appendChild(h);
+  var p=document.createElement("p");p.className="dates";p.textContent="You're travelling and on a mobile project. One small task a day, 45 minutes at most. Missing one is fine.";sec.appendChild(p);
+  var wd=document.createElement("details");wd.className="week";wd.id="w-warm";
+  var c=0;WARMUP.forEach(function(w){if(ticks[w[0]+"#w"])c++;});
+  if(openIds[wd.id]||(firstWarm&&today<START))wd.open=true;
+  var su=document.createElement("summary");
+  su.innerHTML='<span class="wt">9 light days<small>6 Oct to 14 Oct</small></span><span><span class="badge'+(c===WARMUP.length?" ok":"")+'">'+c+' / '+WARMUP.length+'</span> <span class="chev" aria-hidden="true">›</span></span>';
+  wd.appendChild(su);
+  var body=document.createElement("div");body.className="wbody";
+  WARMUP.forEach(function(w,i){
+    var k=w[0]+"#w",on=!!ticks[k],det=document.createElement("details");
+    det.className="day"+(w[0]===today?" today-d":"");det.id="wd-"+i;
+    if(openIds[det.id]||(firstWarm&&w[0]===today))det.open=true;
+    var sm=document.createElement("summary");
+    sm.innerHTML='<span class="dn">W'+(i+1)+'<small>'+fmt(w[0])+'</small></span><span class="sumtxt"><b></b><span>'+(w[0]===today?"Today":(w[3]==="dsa"?"One DSA question":"One design principles question"))+'</span></span><span class="badge'+(on?" ok":"")+'">'+(on?1:0)+' / 1</span>';
+    sm.querySelector("b").textContent=w[3]==="dsa"?"DSA warm-up":"Design principles warm-up";
+    det.appendChild(sm);
+    var ul=document.createElement("ul");ul.className="tasks";
+    var li=document.createElement("li");li.className="task"+(on?" checked":"");
+    li.innerHTML='<input type="checkbox" id="cbw-'+i+'"'+(on?" checked":"")+'><label for="cbw-'+i+'"><span class="tk"><span class="tr"></span></span><span class="tt"></span><div class="tn"></div></label>';
+    var tr=li.querySelector(".tr");tr.textContent=w[3]==="dsa"?"DSA":"Design principles";tr.style.color=w[3]==="dsa"?"var(--dsa)":"var(--des)";
+    li.querySelector(".tt").textContent=w[1];li.querySelector(".tn").textContent=w[2];
+    li.querySelector("input").addEventListener("change",function(e){if(e.target.checked)ticks[k]=true;else delete ticks[k];save();renderWarmup();});
+    ul.appendChild(li);det.appendChild(ul);body.appendChild(det);
+  });
+  wd.appendChild(body);sec.appendChild(wd);
+  firstWarm=false;
+}
+var firstWarm=true;
+function openDay(idx){
+  var el=document.getElementById("day-"+idx);if(!el)return;
+  var w=el.closest("details.week");if(w)w.open=true;el.open=true;
+  el.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+/* ---------- DSA sheet ---------- */
+var GAPS=[1,3,7,14,30],STATUS={NEW:"New",LEARNING:"Learning",KNOWN:"Known",WEAK:"Weak"},DIFF={E:"Easy",M:"Medium",H:"Hard"};
+var PORDER=[P.AH,P.TP,P.SW,P.RB,P.ST,P.BS,P.LL,P.TR,P.HP,P.GR,P.IG,P.TI,P.DP,P.DM];
+var QS=Object.keys(DAYOF).map(function(lc){lc=+lc;return {lc:lc,title:Q[lc][0],slug:Q[lc][1],diff:Q[lc][2],pat:Q[lc][3],day:DAYOF[lc]};}).sort(function(a,b){return a.day-b.day;});
+var filter="ALL";try{filter=localStorage.getItem("p1-filter")||"ALL";}catch(e){}
+function rec(lc){return sheet[lc]||{st:"NEW",revs:0};}
+function dueDate(r){if(!r.solved||r.revs>=GAPS.length)return null;return addDays(r.solved,GAPS[r.revs]);}
+function isDue(r){var d=dueDate(r);return !!d&&diffDays(d,todayISO())>=0;}
+function put(lc,r){r.u=Date.now();sheet[lc]=r;save();renderSheet();}
+function setStatus(lc,st){var r=Object.assign({},rec(lc));if(st==="NEW")r={st:"NEW",revs:0,note:r.note};else{r.st=st;if(!r.solved){r.solved=todayISO();r.revs=0;}}put(lc,r);}
+function gotIt(lc){var r=Object.assign({},rec(lc));r.revs=(r.revs||0)+1;r.last=todayISO();if(r.st==="WEAK")r.st="LEARNING";else if(r.st==="LEARNING"&&r.revs>=3)r.st="KNOWN";put(lc,r);}
+function forgot(lc){var r=Object.assign({},rec(lc));r.st="WEAK";r.revs=0;r.solved=todayISO();r.last=todayISO();put(lc,r);}
+function link(q){return "https://leetcode.com/problems/"+q.slug+"/";}
+function whenText(r){
+  if(r.st==="NEW")return null;
+  if(r.revs>=GAPS.length)return {t:"All 5 revisions done",hot:false};
+  var n=diffDays(todayISO(),dueDate(r));
+  if(n<0)return {t:"Revision overdue by "+(-n)+(n===-1?" day":" days"),hot:true};
+  if(n===0)return {t:"Revise today",hot:true};
+  return {t:"Next revision in "+n+(n===1?" day":" days")+" (Day "+GAPS[r.revs]+")",hot:false};
+}
+function btn(cls,label,fn){var b=document.createElement("button");b.type="button";b.className="b "+cls;b.textContent=label;b.onclick=fn;return b;}
+function miniRow(q,mode){
+  var row=document.createElement("div");row.className="mini";
+  var left=document.createElement("div");
+  var a=document.createElement("a");a.href=link(q);a.target="_blank";a.rel="noopener";a.textContent="LC "+q.lc+". "+q.title;left.appendChild(a);
+  var m=document.createElement("div");m.className="qm";m.textContent=q.pat+(mode==="due"?". Redo it closed book, then mark it.":". Mark it once you've solved it.");left.appendChild(m);
+  var bt=document.createElement("div");bt.className="btns";
+  if(mode==="due"){bt.appendChild(btn("go","Solved it again",function(){gotIt(q.lc);}));bt.appendChild(btn("no","Forgot it",function(){forgot(q.lc);}));}
+  else bt.appendChild(btn("go","Solved: learning",function(){setStatus(q.lc,"LEARNING");}));
+  row.appendChild(left);row.appendChild(bt);return row;
+}
+function renderSheet(){
+  var today=todayISO(),tp=document.getElementById("today-panels");tp.innerHTML="";
+  var due=QS.filter(function(q){return isDue(rec(q.lc));});
+  var fresh=QS.filter(function(q){var d=ALL[q.day-1].date;return diffDays(d,today)>=0&&rec(q.lc).st==="NEW";});
+  var p1=document.createElement("div");p1.className="box"+(due.length?" hot":"");p1.innerHTML="<h2>Revise today</h2>";
+  var s1=document.createElement("p");s1.className="sub";s1.textContent=due.length?due.length+(due.length===1?" question is":" questions are")+" due. Do these first, at 11:00, before anything new.":"Nothing due. Revisions show up here on Day 1, 3, 7, 14 and 30 after you solve something.";
+  p1.appendChild(s1);due.forEach(function(q){p1.appendChild(miniRow(q,"due"));});tp.appendChild(p1);
+  var p2=document.createElement("div");p2.className="box";p2.innerHTML="<h2>New from the plan</h2>";
+  var s2=document.createElement("p");s2.className="sub";s2.textContent=fresh.length?"Scheduled for today or earlier and not solved yet.":"You're caught up with the plan.";
+  p2.appendChild(s2);fresh.forEach(function(q){p2.appendChild(miniRow(q,"new"));});tp.appendChild(p2);
+  var c={NEW:0,LEARNING:0,KNOWN:0,WEAK:0};QS.forEach(function(q){c[rec(q.lc).st]++;});
+  document.getElementById("counts").textContent=QS.length+" questions across 90 days: "+c.KNOWN+" known, "+c.LEARNING+" learning, "+c.WEAK+" weak, "+c.NEW+" new.";
+  var fl=document.getElementById("filters");fl.innerHTML="";
+  [["ALL","All"],["DUE","Due ("+due.length+")"],["WEAK","Weak"],["LEARNING","Learning"],["KNOWN","Known"],["NEW","New"]].forEach(function(f){
+    var b=document.createElement("button");b.type="button";b.className="f";b.textContent=f[1];b.setAttribute("aria-pressed",filter===f[0]?"true":"false");
+    b.onclick=function(){filter=f[0];try{localStorage.setItem("p1-filter",filter);}catch(e){}renderSheet();};fl.appendChild(b);
+  });
+  var wrap=document.getElementById("patterns"),openNotes={};
+  wrap.querySelectorAll("details[open]").forEach(function(x){openNotes[x.dataset.lc]=1;});
+  wrap.innerHTML="";var shown=0;
+  PORDER.forEach(function(pn){
+    var all=QS.filter(function(q){return q.pat===pn;});if(!all.length)return;
+    var qs=all.filter(function(q){var r=rec(q.lc);if(filter==="ALL")return true;if(filter==="DUE")return isDue(r);return r.st===filter;});
+    if(!qs.length)return;shown+=qs.length;
+    var k=all.filter(function(q){return rec(q.lc).st==="KNOWN";}).length;
+    var sec=document.createElement("section");sec.className="pat";
+    var h=document.createElement("h3");h.textContent=pn;sec.appendChild(h);
+    var w=document.createElement("p");w.className="why";w.textContent=WHY[pn]+" "+k+" of "+all.length+" known.";sec.appendChild(w);
+    var bar=document.createElement("div");bar.className="bar";bar.innerHTML='<i style="width:'+(k/all.length*100)+'%"></i>';sec.appendChild(bar);
+    var list=document.createElement("div");list.className="qlist";
+    qs.forEach(function(q){
+      var r=rec(q.lc),row=document.createElement("div");row.className="q "+r.st.toLowerCase();
+      var main=document.createElement("div"),tt=document.createElement("div");tt.className="qt";
+      var lc=document.createElement("span");lc.className="lc";lc.textContent="LC "+q.lc;
+      var a=document.createElement("a");a.href=link(q);a.target="_blank";a.rel="noopener";a.textContent=q.title;
+      var d=document.createElement("span");d.className="diff "+q.diff;d.textContent=DIFF[q.diff];
+      tt.appendChild(lc);tt.appendChild(a);tt.appendChild(d);main.appendChild(tt);
+      var m=document.createElement("div");m.className="qm";m.appendChild(document.createTextNode("Plan: Day "+q.day+" ("+fmtShort(ALL[q.day-1].date)+")"));
+      var wt=whenText(r);
+      if(wt){m.appendChild(document.createTextNode(". "));var sp=document.createElement("span");if(wt.hot)sp.className="due-now";sp.textContent=wt.t;m.appendChild(sp);
+        var dots=document.createElement("span");dots.className="dots";dots.setAttribute("aria-label",(r.revs||0)+" of 5 revisions done");
+        for(var i=0;i<5;i++){var di=document.createElement("i");if(i<(r.revs||0))di.className="on";dots.appendChild(di);}m.appendChild(dots);}
+      main.appendChild(m);row.appendChild(main);
+      var act=document.createElement("div");act.className="qact";
+      var sel=document.createElement("select");sel.className="st";sel.setAttribute("aria-label","Status for "+q.title);
+      Object.keys(STATUS).forEach(function(k2){var o=document.createElement("option");o.value=k2;o.textContent=STATUS[k2];if(r.st===k2)o.selected=true;sel.appendChild(o);});
+      sel.onchange=function(){setStatus(q.lc,sel.value);};act.appendChild(sel);
+      if(isDue(r)){var bt=document.createElement("div");bt.className="btns";bt.appendChild(btn("go","Solved it again",function(){gotIt(q.lc);}));bt.appendChild(btn("no","Forgot it",function(){forgot(q.lc);}));act.appendChild(bt);}
+      row.appendChild(act);
+      var det=document.createElement("details");det.dataset.lc=q.lc;if(openNotes[q.lc])det.open=true;
+      var su=document.createElement("summary");su.textContent=r.note?"Your note":"Add a note";det.appendChild(su);
+      var ta=document.createElement("textarea");ta.placeholder="Pattern in one line, the trap you fell into, the key insight.";ta.value=r.note||"";
+      var nt=null;ta.oninput=function(){clearTimeout(nt);nt=setTimeout(function(){var rr=Object.assign({},rec(q.lc));rr.note=ta.value;rr.u=Date.now();sheet[q.lc]=rr;save();},500);};
+      det.appendChild(ta);row.appendChild(det);list.appendChild(row);
+    });
+    sec.appendChild(list);wrap.appendChild(sec);
+  });
+  if(!shown){var e=document.createElement("p");e.className="empty";e.textContent=filter==="DUE"?"Nothing due right now.":"No questions in this bucket yet.";wrap.appendChild(e);}
+}
+
+/* ---------- interview map ---------- */
+var COS=[
+ {n:"ElevenLabs",fit:["good","Best fit: remote India roles"],rows:[
+  ["India","Forward Deployed Engineer and Solutions Engineer roles posted as remote within India."],
+  ["Process","A take-home or async CoderPad with a few LeetCode-style questions, live coding with an engineer, a product decomposition round in a sketching app, then a founder or CTO conversation about what you've shipped."],
+  ["They care about","Results, not process. Bring numbers from your projects."],
+  ["Your prep","DSA sheet every day. HLD: voice agent, TTS at scale, audio streaming. Build: the voice agent with real users and latency numbers."]]},
+ {n:"Vercel",fit:["good","Good fit: some remote India roles"],rows:[
+  ["India","Some roles listed as remote in India; check the careers page often."],
+  ["Process","Around five rounds designed to feel like real work: take-home or code review with live extension, Vercel-shaped system design (edge, CDN, builds, serverless), a project deep dive with a product critique, and a values round."],
+  ["They care about","Craft, real use of their products, and open-source work."],
+  ["Your prep","Tuesday React and Next.js. Phase 2 HLD: deployment platform, edge caching, serverless. Build: PRs on vercel/ai and a written product critique."]]},
+ {n:"Anthropic",fit:["maybe","Possible: Bengaluru office"],rows:[
+  ["India","Bengaluru office hiring for engineering, go-to-market and policy. Likely office-based, which clashes with your no-relocation rule."],
+  ["Process","Recruiter call, a timed progressive coding assessment (in-memory database, bank system), live practical coding, then system design, a hiring manager round and a values round. Reports say no AI during coding; follow whatever your invite says."],
+  ["They care about","Judgement and taste, clean code under changing requirements, and genuine engagement with the mission."],
+  ["Your prep","Monday and Wednesday JS/TS practicals. Phase 3 HLD: inference batching, inference API. Build: a written \"Why Anthropic\"."]]},
+ {n:"OpenAI",fit:["maybe","Possible: New Delhi, near Gurugram"],rows:[
+  ["India","New Delhi office; early hiring has been mostly go-to-market and forward deployed roles."],
+  ["Process","Practical coding rather than LeetCode, often building a working UI in React or TypeScript in about an hour. System design for frontend roles increasingly covers the backend too. Reports mention async and concurrency depth."],
+  ["They care about","Shipping complete products, error handling, and depth in your language."],
+  ["Your prep","Tuesday React (streaming chat UI), Thursday Node, the ChatGPT HLD, and the event loop drills."]]},
+ {n:"Sarvam AI",fit:["no","Clashes: on-site Bengaluru"],rows:[
+  ["India","Bengaluru, mostly on-site. Only worth it if you'd relocate."],
+  ["Process","Reports describe build-from-scratch tasks under time pressure, plus React/TypeScript or Node rounds for engineering roles."],
+  ["Your prep","Already covered by the practical and React/Node blocks."]]}
+];
+function renderMap(){
+  var w=document.getElementById("companies");w.innerHTML="";
+  COS.forEach(function(c,i){
+    var d=document.createElement("details");d.className="box co";if(i<2)d.open=true;
+    var s=document.createElement("summary");var h=document.createElement("h3");h.textContent=c.n;var f=document.createElement("span");f.className="fit "+c.fit[0];f.textContent=c.fit[1];
+    s.appendChild(h);s.appendChild(f);d.appendChild(s);
+    var dl=document.createElement("dl");
+    c.rows.forEach(function(r){var dt=document.createElement("dt");dt.textContent=r[0];var dd=document.createElement("dd");dd.textContent=r[1];dl.appendChild(dt);dl.appendChild(dd);});
+    d.appendChild(dl);w.appendChild(d);
+  });
+}
+
+/* ---------- tabs ---------- */
+var TABS=["plan","sheet","map"];
+function showTab(which){
+  TABS.forEach(function(x){document.getElementById("view-"+x).hidden=x!==which;document.getElementById("tab-"+x).setAttribute("aria-selected",x===which?"true":"false");});
+  try{localStorage.setItem("p90-tab",which);}catch(e){}
+}
+TABS.forEach(function(x){document.getElementById("tab-"+x).onclick=function(){showTab(x);};});
+document.getElementById("reset").onclick=function(){if(!confirm("Clear every tick in the daily plan? Your DSA sheet stays as it is."))return;ticks={};save();render();};
+
+var startTab="plan";try{startTab=localStorage.getItem("p90-tab")||"plan";}catch(e){}
+showTab(TABS.indexOf(startTab)>=0?startTab:"plan");
+renderLegend();renderWarmup();render();renderSheet();renderMap();
+
+(async function(){
+  try{
+    if(!window.claude||!window.claude.use)return;
+    var db=await window.claude.use("db"),user=await window.claude.use("user");
+    if(!db||!user)return;
+    var uid=await user.id();if(!uid)return;
+    dbDoc=db.doc("data/users/"+uid+"/phase1");
+    var snap=await dbDoc.get();
+    if(snap.exists){
+      var data=snap.data()||{},rt=data.ticks90||{},rs=data.sheet||{};
+      Object.keys(rt).forEach(function(k){ticks[k]=true;});
+      Object.keys(rs).forEach(function(k){if(!sheet[k]||(rs[k].u||0)>(sheet[k].u||0))sheet[k]=rs[k];});
+      try{localStorage.setItem("p90-ticks",JSON.stringify(ticks));localStorage.setItem("p1-sheet",JSON.stringify(sheet));}catch(e){}
+      renderWarmup();render();renderSheet();
+    }
+    setSync("Synced to your account.");
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
