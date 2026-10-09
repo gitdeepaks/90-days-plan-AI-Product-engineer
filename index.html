@@ -100,6 +100,7 @@ details.day>summary::-webkit-details-marker{display:none}
 .tk .tr{font-weight:700;border-left:3px solid currentColor;padding-left:6px}
 .tt{font-weight:700}
 .tn{color:var(--muted);font-size:15px;margin-top:2px}
+.minline{font-size:14px;color:var(--muted);padding:10px 0 2px;border-top:1px solid var(--line)}
 .task.checked .tt{text-decoration:line-through;text-decoration-thickness:2px;opacity:.6}
 
 .mini{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);flex-wrap:wrap}
@@ -180,21 +181,32 @@ select.st{font:inherit;font-size:14px;font-weight:700;padding:5px 8px;border-rad
       <h2>Every weekday</h2>
       <div class="sched">
         <b>11:00</b><span>DSA: revision quiz first, then 2 problems</span>
-        <b>12:30</b><span>Coding round: Mon and Wed JS/TS, Tue React, Thu Node, Fri new-format rounds</span>
+        <b>12:30</b><span>Coding round: Mon and Wed JS/TS, Tue React, Thu Node (all no AI). Fri: with-AI and review rounds</span>
         <b>2:00</b><span>Lunch and a walk, away from screens</span>
         <b>2:45</b><span>Design principles, then LLD</span>
-        <b>4:00</b><span>HLD, one system a day</span>
+        <b>4:00</b><span>HLD, one system a day. Some Thursdays: database internals instead</span>
         <b>5:00</b><span>Build and be seen</span>
       </div>
+    </div>
+    <div class="box hot">
+      <h2>Perfect day optional. Minimum day sacred. Weekly mock non-negotiable.</h2>
+      <div class="sched">
+        <b>Minimum</b><span>45–60 min. DSA revisions due today, then one problem, then a 3-line note. Nothing else is required.</span>
+        <b>Standard</b><span>About 4 hours. DSA, the coding round and one of design or HLD.</span>
+        <b>Perfect</b><span>Everything on the day. A bonus, never the bar.</span>
+      </div>
+      <p class="sub" style="margin:10px 0 0"><b>Follow the plan. Don't worship it.</b> Two minimum days in a week is fine. Three in a row means the plan is wrong, not you: tell Claude and we cut it down.</p>
     </div>
     <div class="box">
       <h2>Rules that keep you out of confusion</h2>
       <ul>
-        <li>Only do what today says. New course, new sheet, new YouTube series: no, until Jan 3.</li>
+        <li>Only do what today says. New course, new sheet, new YouTube series: no, until 12 Jan.</li>
         <li>DSA: 20 minutes alone before any hint. Brute force first, then the pattern.</li>
-        <li>Coding rounds are done without AI, except the Friday AI-assisted round, where steering the AI well is the skill.</li>
-        <li>A day with 3 of 5 blocks done still counts. Missing a day means you continue tomorrow, not restart.</li>
-        <li>Saturday is mock day, Sunday is revision. Sunday after 3 PM is off.</li>
+        <li>After every problem, a 3-line note in the DSA sheet: pattern, invariant, mistake. The full notebook template is only for problems that land in WEAK.</li>
+        <li>No-AI and with-AI practice never mix. Monday to Thursday coding: no AI at all. Friday: with AI, and steering it well is the skill.</li>
+        <li>Saturday: one 50-minute timed mock, scored on the rubric in the Interview map tab. A human interviewer at least every other week.</li>
+        <li>Every week ships one visible thing: a demo, a note, a PR or a diagram.</li>
+        <li>Missing a day means you continue tomorrow, not restart. Sunday after 3 PM is off.</li>
       </ul>
     </div>
 
@@ -215,6 +227,17 @@ select.st{font:inherit;font-size:14px;font-weight:700;padding:5px 8px;border-rad
       <p style="margin:0">None of these five companies is a pure LeetCode shop. They test practical coding (build something, then extend it), React or full-stack builds, system design with an AI flavour, and deep conversations about what you've shipped. DSA still matters as the base, and ElevenLabs and Sarvam do ask it directly. The new thing is the AI-assisted round: some companies ban AI in interviews, some now hand you one and grade how you steer it. This plan practises both.</p>
     </div>
     <div id="companies"></div>
+    <div class="box">
+      <h2>Scoring your weekly mock</h2>
+      <p class="sub">Score each from 1 to 4 straight after the mock. A 2 isn't failure, it's the thing to fix next week.</p>
+      <div class="sched">
+        <b>Understand</b><span>Restated the problem, asked about edge cases before coding</span>
+        <b>Approach</b><span>Brute force first, then a better idea with a reason</span>
+        <b>Code</b><span>Correct, readable, ran it and fixed bugs without being told</span>
+        <b>Test</b><span>Walked through an example and an edge case unprompted</span>
+        <b>Talk</b><span>Thought out loud, handled a changed requirement calmly</span>
+      </div>
+    </div>
     <div class="box">
       <h2>The AI-assisted round</h2>
       <p class="sub">Read a working codebase, fix planted bugs, extend it, then make it survive 100x the input, with an assistant beside you. You're graded on how precisely you steer it, not on whether tests go green.</p>
@@ -239,14 +262,15 @@ var T={
   js:{label:"JS/TS practical, no AI",color:"var(--js)",time:"12:30"},
   react:{label:"React machine coding, no AI",color:"var(--react)",time:"12:30"},
   node:{label:"Node and backend",color:"var(--node)",time:"12:30"},
-  db:{label:"DB and OS internals, no AI",color:"var(--db)",time:"+40 min"},
+  db:{label:"DB internals, no AI",color:"var(--db)",time:"4:00"},
   warm:{label:"Warm-up",color:"var(--dsa)",time:""},
   fri:{label:"New-format round",color:"var(--fri)",time:"12:30"},
   des:{label:"Design principles / LLD",color:"var(--des)",time:"2:45"},
   hld:{label:"HLD",color:"var(--hld)",time:"4:00"},
   build:{label:"Build and be seen",color:"var(--build)",time:"5:00"},
   mock:{label:"Mock",color:"var(--mock)",time:"11:00"},
-  rev:{label:"Revision",color:"var(--rev)",time:""}
+  rev:{label:"Revision",color:"var(--rev)",time:""},
+  story:{label:"Stories and deep dives",color:"var(--fri)",time:""}
 };
 
 /* ---------- DSA master list: lc -> [title, slug, diff, pattern] ---------- */
@@ -290,7 +314,7 @@ var Q={
 74:["Search a 2D Matrix","search-a-2d-matrix","M",P.BS],
 206:["Reverse Linked List","reverse-linked-list","E",P.LL],21:["Merge Two Sorted Lists","merge-two-sorted-lists","E",P.LL],141:["Linked List Cycle","linked-list-cycle","E",P.LL],
 876:["Middle of the Linked List","middle-of-the-linked-list","E",P.LL],19:["Remove Nth Node From End of List","remove-nth-node-from-end-of-list","M",P.LL],
-143:["Reorder List","reorder-list","M",P.LL],2:["Add Two Numbers","add-two-numbers","M",P.LL],
+143:["Reorder List","reorder-list","M",P.LL],2:["Add Two Numbers","add-two-numbers","M",P.LL],146:["LRU Cache","lru-cache","M",P.DM],
 509:["Fibonacci Number","fibonacci-number","E",P.RB],231:["Power of Two","power-of-two","E",P.RB],50:["Pow(x, n)","powx-n","M",P.RB],
 344:["Reverse String","reverse-string","E",P.RB],78:["Subsets","subsets","M",P.RB],46:["Permutations","permutations","M",P.RB],
 39:["Combination Sum","combination-sum","M",P.RB],22:["Generate Parentheses","generate-parentheses","M",P.RB],
@@ -328,9 +352,9 @@ var Q={
 460:["LFU Cache","lfu-cache","H",P.DM],36:["Valid Sudoku","valid-sudoku","M",P.DM]
 };
 var DSA_WEEK=[
- [1,217,242,49,347,238,128,125,15,75,42,121,643,3,424,567,209,76,509,231,50,344,78,46,39,22,20,155,150,735,84,704,35,278,33,153,875,981,21,141,876,19],
- [143,496,17,79,104,226,100,543,110,572,102,199,235,98,105,124,297,703,1046,215,973,621,295,200,133,994,417,207,210,684,1319,743,787,127,57,435,452,55,45,134],
- [70,746,198,213,5,91,322,152,139,300,416,62,1143,518,72,309,494,53,64,560,438,211,380,"W",1797,"W",706,"W",355,"W",1396,"W",460,"W",763,"W",678,"W"]
+ [1,217,242,49,347,238,128,125,15,75,42,121,643,3,424,567,209,76,509,231,50,344,78,46,39,22,20,155,150,735,84,704,35,146,33,153,875,981,21,141,706,19],
+ [143,496,17,79,104,226,100,543,110,572,102,199,235,98,105,124,297,703,380,215,973,621,295,200,133,994,417,207,210,684,1319,743,787,127,57,435,452,55,45,134],
+ [70,746,198,213,5,91,322,152,139,300,416,62,1143,518,72,309,494,53,64,560,438,211,1046,876,1797,"W",278,"W",355,"W",1396,"W",460,"W",763,"W",678,"W"]
 ];
 var DSA_SAT=[[11,904,739,206],[2,230,695,56,208],[1004,74,36,853]];
 
@@ -388,7 +412,6 @@ var NODE=[
  ["Idempotency","Idempotency keys for POST /payments","Same key twice must return the same result."],
  ["Background jobs","Queue plus worker with retries and backoff","BullMQ-style ideas, built small."],
  ["Cache layer","Cache-aside with TTL and stampede protection",""],
- ["Webhooks","Webhook receiver: signature check, dedupe, retries",""],
  ["SSE endpoint","SSE endpoint that streams LLM tokens and stops when the client disconnects",""],
  ["Worker threads","CPU-bound work: worker threads vs cluster","Measure before and after."],
  ["Timed API","Timed: URL shortener API with tests in 60 minutes",""]
@@ -497,22 +520,14 @@ var HLD=[
  ["Job queue","Distributed job queue","Reported at Anthropic."],
  ["File cache","File cache system","Reported at Anthropic."],
  ["Web crawler","Distributed web crawler",""],
- ["Typeahead","Search autocomplete",""],
  ["Deploy platform","Deployment platform with preview URLs","Vercel-shaped: builds, artifacts, routing."],
  ["Edge and CDN","CDN, edge caching and incremental regeneration","Vercel-shaped."],
  ["Serverless","Serverless functions platform","Cold starts, isolation, scaling to zero."],
- ["Collab editor","Collaborative editor","OT vs CRDT at a high level."],
  ["Payments","Payment system",""],
- ["File storage","File storage and sharing, like Google Drive",""],
- ["Leaderboard","Real-time leaderboard",""],
  ["Tatkal rush","Ticket booking under a traffic spike","Queues, inventory locking, fairness."],
  ["Audio streaming","Audio and video streaming basics","Chunks, adaptive bitrate. Useful for ElevenLabs."],
- ["Log pipeline","Metrics and logging pipeline",""],
  ["ChatGPT","ChatGPT end to end","Client, API, streaming, history, rate limits. OpenAI-shaped."],
  ["Webhooks","Webhook delivery system",""],
- ["Flags at scale","Feature flags at scale",""],
- ["Spoken mock 2","Spoken mock: chat app, 45 minutes",""],
- ["Summaries 2","Update your design summaries",""],
  ["Inference batching","Inference batching system","Most reported Anthropic design question. Batch size vs latency."],
  ["Inference API","LLM inference API: streaming, KV cache, GPU utilisation",""],
  ["LLM gateway","LLM gateway across providers","Routing, fallbacks, cost tracking."],
@@ -521,14 +536,10 @@ var HLD=[
  ["Voice latency","Voice agent latency deep dive","Interruptions, partial transcripts, streaming TTS."],
  ["TTS at scale","Text-to-speech service at scale","ElevenLabs-shaped."],
  ["RAG at scale","RAG at scale with evaluation",""],
- ["Eval pipeline","LLM evaluation pipeline",""],
  ["Search 1B docs","Distributed search over a billion documents",""],
- ["Model rollout","Distributing model artifacts to a fleet of servers",""],
  ["Timed batching","Timed: inference batching, 45 minutes",""],
  ["Timed ChatGPT","Timed: ChatGPT, 45 minutes",""],
  ["Timed deploy","Timed: deployment platform, 45 minutes",""],
- ["Timed Tatkal","Timed: ticket booking spike, 45 minutes",""],
- ["Timed job queue","Timed: distributed job queue, 45 minutes",""],
  ["SD round","System design round on ChaiCode (optional, paid) or Claude as interviewer",""],
  ["Final summaries","Final one-page summary of every design",""]
 ];
@@ -615,8 +626,28 @@ var INTERNALS={
  "2026-11-05":["Locks","Row locks, SELECT ... FOR UPDATE, optimistic vs pessimistic locking. When would you pick each?"],
  "2026-11-12":["Deadlocks in theory","The four conditions for a deadlock and how breaking any one prevents it. Then a database deadlock example with two transactions."],
  "2026-11-19":["Write a deadlock yourself","In Node, two async locks taken in opposite order so the program hangs. Then fix it with a fixed lock order. No AI."],
- "2026-11-26":["Race conditions","Check-then-act bugs, like a duplicate queue entry from two devices at once. Fix with a unique constraint, an upsert, or an idempotency key."]
+ "2026-11-26":["Race conditions","Check-then-act bugs, like a duplicate queue entry from two devices at once. Fix with a unique constraint, an upsert, or an idempotency key."],
+ "2026-12-03":["Query plans","EXPLAIN ANALYZE on a real table: sequential scan vs index scan, and spotting an N+1 query in an ORM."],
+ "2026-12-10":["MVCC and VACUUM","How Postgres keeps old row versions so readers don't block writers, and why that means it needs VACUUM."],
+ "2026-12-17":["Write-ahead log and replication lag","Why a commit is durable, and what a user sees when they read from a replica that's a second behind."],
+ "2026-12-24":["Connection pooling","Why serverless functions can exhaust Postgres connections, and how a pooler like PgBouncer fixes it. Very Vercel-shaped."],
+ "2026-12-31":["Redis internals","Single-threaded model, RDB vs AOF persistence, eviction policies. Then: what happens to your rate limiter when Redis restarts?"],
+ "2027-01-07":["Cache consistency","Invalidation strategies, stale reads, and the thundering herd when a hot key expires."]
 };
+var STORIES=[
+ ["Story 1: something you shipped","Pick NewCode or AIChatWave. Situation, what you built, one decision you made, the result. Under 2 minutes, out loud."],
+ ["Story 2: a scaling or debugging problem","A real bug or bottleneck you chased down. What you saw, what you suspected, how you proved it, the fix."],
+ ["Story 3: a refactor","Use the module you refactored with the design principles course. Before, after, and why it was worth it."],
+ ["Record all 3 stories and listen back","Cut anything that isn't a decision or a result."],
+ ["Project deep dive: NewCode in 10 minutes","Architecture, the hardest trade-off, what you'd change. Expect 'why not X?' follow-ups."],
+ ["Story 4: a mistake you made","What went wrong, what you changed afterwards. Own it, no blaming."],
+ ["Project deep dive: AIChatWave in 10 minutes","Multi-model routing, cost, memory. Have one number ready."],
+ ["Story 5: a disagreement","A time you pushed back on a decision, at Cognizant or with a client. How it ended."],
+ ["Why Vercel and why ElevenLabs, 60 seconds each","Mention something you actually use or built with."],
+ ["Why Anthropic and why OpenAI, 60 seconds each","Specific, not generic praise."],
+ ["Rehearse all stories with a friend","Ask them which one they'd remember tomorrow."],
+ ["Tell me about yourself in 90 seconds, then a final run-through of every story","Record three takes, keep the best."]
+];
 var WARMUP=[
  ["2026-10-06","LC 268 Missing Number","Arrays. Try a sum-based idea before reaching for a set.","dsa"],
  ["2026-10-07", "Course lesson 5.6: apply it, the escalation alert", "You were already on this one. Go slowly, no rushing for XP.", "des"],
@@ -650,7 +681,7 @@ function qName(lc){return "LC "+lc+" "+Q[lc][0];}
 /* ---------- build the 90 days ---------- */
 var START="2026-10-15",ALL=[],DAYOF={};
 (function(){
-  var qi={js:0,react:0,node:0,fri:0,des:0,hld:0,build:0,mock:0};
+  var qi={js:0,react:0,node:0,fri:0,des:0,hld:0,build:0,mock:0,story:0};
   var dq=[0,0,0],sq=[0,0,0];
   var week={js:[],hld:[]};
   function take(name,arr){var it=arr[qi[name]];if(!it)it=arr[arr.length-1];qi[name]++;return it;}
@@ -671,15 +702,17 @@ var START="2026-10-15",ALL=[],DAYOF={};
     }else if(wd===6){
       day.kind="mock";var m=take("mock",MOCKS),lc=DSA_SAT[ph][sq[ph]++];
       day.focus="Mock day";
-      day.tasks=[t("mock",m[0],m[1])];
+      day.tasks=[t("mock","Weekly timed mock: "+m[0],(m[1]?m[1]+" ":"")+"Score it on the rubric in the Interview map tab, and write the scores in the weekly review.")];
       if(lc){day.dsa.push(lc);day.tasks.push(t("dsa","Unseen: "+qName(lc),"Timer on, think out loud. Pattern: "+Q[lc][3]+"."));}
-      day.tasks.push(t("rev","Weekly review, 30 minutes","What clicked, what didn't. Update your NEW / LEARNING / KNOWN / WEAK buckets."));
-      day.tasks.push(t("build","Light build session, then the evening off",""));
+      day.tasks.push(t("rev","Weekly review, 30 minutes","Mock scores, then every mistake from this week's 3-line notes. Update your NEW / LEARNING / KNOWN / WEAK buckets."));
+      day.tasks.push(t("rev","Failure log, 10 minutes","This week I avoided: … This week I froze at: … One fix for next week: … Facts, not judgments. The fix line is the only one that matters."));
+      day.tasks.push(t("build","Ship this week's visible output","A demo, a note, a PR or a diagram, posted or pushed. If nothing shipped, one line on why."));
     }else if(wd===0){
       day.kind="rev";day.focus="Revision day";
       var rb=week.js.length?week.js[0]:"one coding problem from this week",rd=week.hld.length?week.hld[week.hld.length-1]:"one design from this week";
       day.tasks=[
         t("rev","Closed-book redo of every DSA problem due today","The DSA sheet tab lists them. Anything you can't redo goes to WEAK."),
+        (function(){var st=STORIES[qi.story++]||STORIES[STORIES.length-1];return t("story",st[0]+" (Sunday morning)",st[1]);})(),
         t("js","Rebuild from a blank file: "+rb,"60-minute timer, no notes."),
         t("hld","Redraw from memory: "+rd,"Then compare with your notes."),
         t("rev","Off after 3 PM","Rest is part of the plan.")
@@ -697,11 +730,13 @@ var START="2026-10-15",ALL=[],DAYOF={};
       else if(wd===4){ck="node";item=take("node",NODE);}
       else if(wd===5){ck="fri";item=take("fri",FRI);}
       else{ck="js";item=take("js",JS);week.js.push(item[0]);}
-      var de=take("des",DES),h=take("hld",HLD),b=take("build",BUILD);week.hld.push(h[1]);
+      var de=take("des",DES),h=INTERNALS[date]?null:take("hld",HLD),b=take("build",BUILD);if(h)week.hld.push(h[1]);
       day.focus=(pats[0]||"DSA")+", "+item[0];
       day.tasks=[t("dsa",dTitle||"DSA",dNote),t(ck,item[1],item[2])];
-      if(INTERNALS[date])day.tasks.push(t("db",INTERNALS[date][0],INTERNALS[date][1]));
-      day.tasks.push(t("des",de[1],de[2]),t("hld",h[1],h[2]),t("build",b[0],b[1]));
+      day.tasks.push(t("des",de[1],de[2]));
+      if(INTERNALS[date])day.tasks.push(t("db",INTERNALS[date][0],INTERNALS[date][1]+" This takes today's HLD slot."));
+      else day.tasks.push(t("hld",h[1],h[2]));
+      day.tasks.push(t("build",b[0],b[1]));
     }
     day.dsa.forEach(function(lc){DAYOF[lc]=idx;});
     ALL.push(day);
@@ -727,7 +762,7 @@ function doneCount(d){var c=0;d.tasks.forEach(function(_,i){if(ticks[key(d,i)])c
 function weekStart(s){var d=parse(s),w=d.getDay(),back=w===0?6:w-1;d.setDate(d.getDate()-back);return iso(d);}
 function renderLegend(){
   var l=document.getElementById("legend");l.innerHTML="";
-  ["dsa","js","react","node","db","fri","des","hld","build"].forEach(function(k){var s=document.createElement("span");s.innerHTML='<i class="dot" style="background:'+T[k].color+'"></i>';s.appendChild(document.createTextNode(T[k].label.replace(", no AI","")));l.appendChild(s);});
+  ["dsa","js","react","node","db","fri","des","hld","build","story"].forEach(function(k){var s=document.createElement("span");s.innerHTML='<i class="dot" style="background:'+T[k].color+'"></i>';s.appendChild(document.createTextNode(T[k].label.replace(", no AI","")));l.appendChild(s);});
   var x=document.createElement("span");x.textContent="Dashed = mock, bold = checkpoint";l.appendChild(x);
 }
 var firstPlan=true;
@@ -789,6 +824,7 @@ function dayEl(d,today,open){
   su.querySelector("b").textContent=d.focus;
   det.appendChild(su);
   var ul=document.createElement("ul");ul.className="tasks";
+  if(d.kind==="work"){var mn=document.createElement("li");mn.className="minline";mn.textContent="Minimum day? Do only the first block: revisions due, one problem, a 3-line note.";ul.appendChild(mn);}
   d.tasks.forEach(function(tk,i){
     var info=T[tk.k],id="cb-"+d.idx+"-"+i,on=!!ticks[key(d,i)];
     var li=document.createElement("li");li.className="task"+(on?" checked":"");
@@ -923,7 +959,7 @@ function renderSheet(){
       row.appendChild(act);
       var det=document.createElement("details");det.dataset.lc=q.lc;if(openNotes[q.lc])det.open=true;
       var su=document.createElement("summary");su.textContent=r.note?"Your note":"Add a note";det.appendChild(su);
-      var ta=document.createElement("textarea");ta.placeholder="Pattern in one line, the trap you fell into, the key insight.";ta.value=r.note||"";
+      var ta=document.createElement("textarea");ta.placeholder="Pattern: …\nInvariant: …\nMistake: …";ta.value=r.note||"";
       var nt=null;ta.oninput=function(){clearTimeout(nt);nt=setTimeout(function(){var rr=Object.assign({},rec(q.lc));rr.note=ta.value;rr.u=Date.now();sheet[q.lc]=rr;save();},500);};
       det.appendChild(ta);row.appendChild(det);list.appendChild(row);
     });
