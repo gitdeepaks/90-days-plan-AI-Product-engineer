@@ -186,6 +186,7 @@ select.st{font:inherit;font-size:14px;font-weight:700;padding:5px 8px;border-rad
         <b>2:45</b><span>Design principles, then LLD</span>
         <b>4:00</b><span>HLD, one system a day. Some Thursdays: database internals instead</span>
         <b>5:00</b><span>Build and be seen</span>
+        <b>7:00</b><span>Learn in public in English, 15 minutes: X on Mon, Wed, Fri; LinkedIn and X on Tue, Thu</span>
       </div>
     </div>
     <div class="box hot">
@@ -270,7 +271,8 @@ var T={
   build:{label:"Build and be seen",color:"var(--build)",time:"5:00"},
   mock:{label:"Mock",color:"var(--mock)",time:"11:00"},
   rev:{label:"Revision",color:"var(--rev)",time:""},
-  story:{label:"Stories and deep dives",color:"var(--fri)",time:""}
+  story:{label:"Stories and deep dives",color:"var(--fri)",time:""},
+  post:{label:"Learn in public, 15 min",color:"var(--build)",time:"7:00"}
 };
 
 /* ---------- DSA master list: lc -> [title, slug, diff, pattern] ---------- */
@@ -737,6 +739,10 @@ var START="2026-10-15",ALL=[],DAYOF={};
       if(INTERNALS[date])day.tasks.push(t("db",INTERNALS[date][0],INTERNALS[date][1]+" This takes today's HLD slot."));
       else day.tasks.push(t("hld",h[1],h[2]));
       day.tasks.push(t("build",b[0],b[1]));
+      if(!/^Post #/.test(b[0])){
+        if(wd===2||wd===4) day.tasks.push(t("post","LinkedIn and X: explain today's design or HLD idea","One concept, one diagram, and the trade-off you'd mention in an interview. Write it in English, for someone who's never seen it."));
+        else day.tasks.push(t("post","X: one thing you learned today","Turn today's 30-second script or 3-line note into a short post. Name your mistake, not just the answer. Never paste a full solution. In English."));
+      }
     }
     day.dsa.forEach(function(lc){DAYOF[lc]=idx;});
     ALL.push(day);
@@ -762,7 +768,7 @@ function doneCount(d){var c=0;d.tasks.forEach(function(_,i){if(ticks[key(d,i)])c
 function weekStart(s){var d=parse(s),w=d.getDay(),back=w===0?6:w-1;d.setDate(d.getDate()-back);return iso(d);}
 function renderLegend(){
   var l=document.getElementById("legend");l.innerHTML="";
-  ["dsa","js","react","node","db","fri","des","hld","build","story"].forEach(function(k){var s=document.createElement("span");s.innerHTML='<i class="dot" style="background:'+T[k].color+'"></i>';s.appendChild(document.createTextNode(T[k].label.replace(", no AI","")));l.appendChild(s);});
+  ["dsa","js","react","node","db","fri","des","hld","build","story","post"].forEach(function(k){var s=document.createElement("span");s.innerHTML='<i class="dot" style="background:'+T[k].color+'"></i>';s.appendChild(document.createTextNode(T[k].label.replace(", no AI","")));l.appendChild(s);});
   var x=document.createElement("span");x.textContent="Dashed = mock, bold = checkpoint";l.appendChild(x);
 }
 var firstPlan=true;
@@ -824,7 +830,7 @@ function dayEl(d,today,open){
   su.querySelector("b").textContent=d.focus;
   det.appendChild(su);
   var ul=document.createElement("ul");ul.className="tasks";
-  if(d.kind==="work"){var mn=document.createElement("li");mn.className="minline";mn.textContent="Minimum day? Do only the first block: revisions due, one problem, a 3-line note.";ul.appendChild(mn);}
+  if(d.kind==="work"){var mn=document.createElement("li");mn.className="minline";mn.textContent="Minimum day? Do only the first block: revisions due, one problem, a 3-line note. Skip the post.";ul.appendChild(mn);}
   d.tasks.forEach(function(tk,i){
     var info=T[tk.k],id="cb-"+d.idx+"-"+i,on=!!ticks[key(d,i)];
     var li=document.createElement("li");li.className="task"+(on?" checked":"");
