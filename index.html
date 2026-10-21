@@ -1174,6 +1174,7 @@
       mock: { label: "Mock", color: "var(--mock)", time: "11:00" },
       rev: { label: "Revision", color: "var(--rev)", time: "" },
       story: { label: "Stories and deep dives", color: "var(--fri)", time: "" },
+      def: { label: "Resume defense, 30 min", color: "var(--fri)", time: "6:30" },
       post: { label: "Learn in public, 15 min", color: "var(--build)", time: "7:00" }
     };
 
@@ -1310,6 +1311,7 @@
       ["Node event loop", "Node event loop: phases, nextTick vs setImmediate", "Predict the output of 10 snippets, then explain them."],
       ["Streams", "Streams: process a 1 GB file line by line with backpressure", "Use stream.pipeline and handle errors properly."],
       ["REST API", "REST API with Hono: CRUD, Zod validation, error middleware", "Write integration tests."],
+      ["Typed RPC", "Typed RPC: Hono RPC (hc client) and tRPC, i.e. how server types reach the client with no codegen", "Open your own NewCode (Hono RPC) and NewForm (tRPC) code. Explain: export type AppType / AppRouter, why it is a type-only import, where Zod validates at runtime, and when you would pick REST, tRPC or Hono RPC. Then Claude grills you on your resume lines."],
       ["Auth", "Auth: access and refresh tokens, sessions vs JWT, password hashing", ""],
       ["Rate-limit middleware", "Rate-limit middleware with a pluggable store", "In-memory first, then a Redis-shaped interface."],
       ["Cursor pagination", "Offset vs cursor pagination on Postgres", "Implement cursor pagination and explain why it's stable."],
@@ -1571,6 +1573,110 @@
     var PHASE_NAMES = ["Phase 1: foundation", "Phase 2: build depth", "Phase 3: be seen, get interviews"];
     var HOLIDAYS = { "2026-12-25": "Christmas", "2027-01-01": "New Year's Day" };
 
+    /* ---------- resume defense track ---------- */
+    var RDEF = [
+      [
+        "Ground zero 1: feel the pain, REST without types",
+        "Game: build a tiny Hono or Express endpoint GET /user that returns {name}, and a fetch client that prints user.name. Now rename name to fullName on the server only. Run the client. What printed, and when did you find out? Then answer Claude's question: how could the editor have caught this before running? 30 minutes, no AI."
+      ],
+      [
+        "Ground zero 2: tRPC from zero in one folder",
+        "No Next.js, just Node. One router, one query (getUser), one mutation (createUser) with a Zod input. Repeat yesterday's rename. Where does the red line show up now? Then the magic reveal: what does export type AppRouter = typeof appRouter actually send to the client? 45 minutes."
+      ],
+      [
+        "Ground zero 3: the same app in Hono RPC",
+        "Rebuild yesterday's app with Hono and hc<AppType>. Same rename test. Write a 3-row table: tRPC vs Hono RPC vs plain REST. Which one gives you real HTTP URLs a curl user can call? 45 minutes."
+      ],
+      [
+        "Bug hunt: Claude breaks your mini app",
+        "Say \"bug hunt tRPC\". Claude gives you 3 broken snippets (wrong Zod schema, value import instead of type import, unchained Hono routes). Find each one before running it. 30 minutes."
+      ],
+      [
+        "tRPC in NewForm: trace one procedure end to end",
+        "Click, client hook, router, Zod input, DB, and back. Answer: how does the server type reach the client (typeof appRouter, type-only import)? How were the OpenAPI docs generated? Why tRPC for NewForm? Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Hono RPC in NewCode: hc<AppType> and validators",
+        "How does the client get route types? Why must routes be chained? zValidator vs plain TS types. Hono RPC vs tRPC: HTTP-first vs RPC-first. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Build a mini typed RPC from scratch, no AI",
+        "About 50 lines: a createRouter on the server and a typed client that infers input and output. Claude gives hints only. Run it before saying done. 60 minutes."
+      ],
+      [
+        "Mock: tRPC and Hono RPC grill, 30 minutes",
+        "Say \"test me on tRPC\". Limitations, batching, middleware and ctx, query vs mutation, why not REST or GraphQL. 30 minutes."
+      ],
+      [
+        "Zod: runtime vs compile-time types",
+        "Why TS alone can't check network data. z.infer, parse vs safeParse, sharing one schema between client and server. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "LangGraph checkpointing in AIChatWave",
+        "What a checkpoint is, where it's stored, what happens on a restart mid-run, thread ids. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "pgvector and embeddings",
+        "Distance metric, index type (HNSW vs IVFFlat), chunking, how you pick top-k, what happens as rows grow. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Memory extraction off the critical path",
+        "How it runs in parallel with the response, what happens if it fails, duplicate memories. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Generative UI tool cards",
+        "How structured tool output streams into React components with the AI SDK. Partial data, errors, loading states. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Multi-model routing over the AI SDK",
+        "How Claude, GPT and Gemini swap per request. Provider differences you had to handle. Fallbacks. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "NewCode agent loop: plan and build modes",
+        "Tool-calling loop, stop conditions, how write access is gated, max steps. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Credit billing and token metering",
+        "Pre-run credit check, metering after the run, two parallel runs racing, refunds on failure. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Clerk OAuth with PKCE",
+        "Draw the PKCE flow: verifier, challenge, code exchange. Why PKCE for a CLI with no client secret. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Polar billing and webhooks",
+        "Webhook signature checks, idempotency, retries, keeping tiers in sync with your DB. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Bun and Hono: why this stack",
+        "Bun vs Node trade-offs, Hono vs Express, where Bun bit you. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Turborepo monorepo",
+        "Task caching, shared packages, how types flow between apps. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Drizzle vs Prisma",
+        "You used both. Why each, migrations, query typing, performance. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Better Auth sessions",
+        "Session storage, cookies, how auth reaches your API handlers. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Cognizant: hooks library and schema-driven forms",
+        "One real hook you'd show, how teams adopted it, how a schema becomes a form. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Napino: component library and the 60% claim",
+        "How you would defend \"roughly 60%\": what you compared. Theming with CSS-in-JS. Read your own code first. Write 3 questions an interviewer would ask, and answer each as \"Because ___, otherwise ___\". 30 minutes."
+      ],
+      [
+        "Mock: full resume grill, 45 minutes",
+        "Say \"grill my resume\". Claude picks any line and goes three follow-ups deep. 45 minutes."
+      ]
+    ];
+
     /* ---------- date helpers ---------- */
     function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
     function parse(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
@@ -1585,7 +1691,7 @@
     /* ---------- build the 90 days ---------- */
     var START = "2026-10-15", ALL = [], DAYOF = {};
     (function () {
-      var qi = { js: 0, react: 0, node: 0, fri: 0, des: 0, hld: 0, build: 0, mock: 0, story: 0 };
+      var qi = { js: 0, react: 0, node: 0, fri: 0, des: 0, hld: 0, build: 0, mock: 0, story: 0, def: 0 };
       var dq = [0, 0, 0], sq = [0, 0, 0];
       var week = { js: [], hld: [] };
       function take(name, arr) { var it = arr[qi[name]]; if (!it) it = arr[arr.length - 1]; qi[name]++; return it; }
@@ -1645,6 +1751,7 @@
             if (wd === 2 || wd === 4) day.tasks.push(t("post", "LinkedIn and X: explain today's design or HLD idea", "One concept, one diagram, and the trade-off you'd mention in an interview. Write it in English, for someone who's never seen it."));
             else day.tasks.push(t("post", "X: one thing you learned today", "Turn today's 30-second script or 3-line note into a short post. Name your mistake, not just the answer. Never paste a full solution. In English."));
           }
+          if (date >= "2026-10-22" && RDEF[qi.def]) { var rd = RDEF[qi.def++]; day.tasks.push(t("def", rd[0], rd[1])); }
         }
         day.dsa.forEach(function (lc) { DAYOF[lc] = idx; });
         ALL.push(day);
