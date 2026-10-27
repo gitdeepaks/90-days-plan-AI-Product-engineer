@@ -1688,10 +1688,10 @@
       ["ChaiCode AI coding interview: \"A bucket of tokens per client\" (TypeScript, 1 credit)", "dsa.chaicode.com/lab/ai-coding. A token-bucket rate limiter: Read, Fix, Extend, Make it fast, with the assistant allowed. You built a sliding-window limiter in your mock, so compare. Graded on how you steer the assistant: name the class and the approach, and run the code. Use this credit before 4 Nov."],
       ["ChaiCode code review, senior bar: \"Rate limiter middleware\" or \"Payment webhook\" (1 credit)", "dsa.chaicode.com/lab/code-review. Comment as what's wrong / why it matters / what instead, serious issues first. Approving can be right; red herrings cost you."],
       ["ChaiCode LLD round: \"Jobs that must not run twice\" (1 credit)", "dsa.chaicode.com/lab/lld. Scope, Pieces, Shape, Walkthrough, Pressure. Ties straight into idempotency and your KV store."],
-      ["ChaiCode system design round: \"A rate limiter for a public API\" or \"A web crawler\" (1 credit)", "dsa.chaicode.com/lab/system-design as a real 45-minute interview: Goals, Data, API, Sketch, Hard parts, Wrap-up. Put a number on every quality goal."],
-      ["ChaiCode AI coding interview: \"LRU Cache\" or \"Duplicate messages\" (TypeScript, 1 credit)", "Second AI coding round. Compare the debrief with the first: did your prompts get more specific?"],
-      ["ChaiCode code review, senior bar (1 credit)", "Second review round. Lead with the most serious issue first."]
+      ["ChaiCode system design round: the Tatkal rush or a ticket booking system (1 credit)", "dsa.chaicode.com/lab/system-design as a real 45-minute interview: Goals, Data, API, Sketch, Hard parts, Wrap-up. Put a number on every quality goal. You already practised the rate limiter and crawler for free, so pick a new one: your ShowTime design (owner per show, seat holds, idempotent webhooks) is the warm-up."],
+      ["ChaiCode AI coding interview: \"LRU Cache\" or \"Duplicate messages\" (TypeScript, 1 credit)", "Second AI coding round. Compare the debrief with the first: did your prompts get more specific?"]
     ];
+    var CHAI_AT = { "2026-10-31": 0, "2026-11-02": 1, "2026-11-04": 2, "2026-11-07": 3, "2026-11-10": 4 };
     var CHAI_FREE = {
       "2026-10-27": ["ChaiCode system design PRACTICE (free till 30 Oct): \"A rate limiter for a public API\"", "dsa.chaicode.com/lab/system-design, practice mode: no clock, feedback after every step, sample answer at the end. Everything on ChaiCode is unlocked until 30 Oct, so use it now."],
       "2026-10-28": ["ChaiCode system design PRACTICE (free till 30 Oct): \"A web crawler for a search startup\"", "Anthropic asks web crawler problems on LeetCode too. Practice mode, no clock."],
@@ -1738,7 +1738,6 @@
           day.tasks.push(t("rev", "Weekly review, 30 minutes", "Mock scores, then every mistake from this week's 3-line notes. Update your NEW / LEARNING / KNOWN / WEAK buckets."));
           day.tasks.push(t("rev", "Failure log, 10 minutes", "This week I avoided: … This week I froze at: … One fix for next week: … Facts, not judgments. The fix line is the only one that matters."));
           day.tasks.push(t("build", "Ship this week's visible output", "A demo, a note, a PR or a diagram, posted or pushed. If nothing shipped, one line on why."));
-          if (date >= "2026-10-31" && CHAI[qi.chai]) { var ch = CHAI[qi.chai++]; day.tasks.push(t("chai", ch[0], ch[1] + " Write the debrief's three 'practise next' points into the weekly review.")); }
         } else if (wd === 0) {
           day.kind = "rev"; day.focus = "Revision day";
           var rb = week.js.length ? week.js[0] : "one coding problem from this week", rd = week.hld.length ? week.hld[week.hld.length - 1] : "one design from this week";
@@ -1777,6 +1776,7 @@
           if (CHAI_FREE[date]) { var cf = CHAI_FREE[date]; day.tasks.push(t("chai", cf[0], cf[1])); }
           if (date >= "2026-10-28" && wd === 3 && COMPANY[qi.co]) { var cp = COMPANY[qi.co++]; day.tasks.push(t("co", "LC " + cp[0] + " " + cp[1] + " (" + cp[2] + ")", cp[3] + " Claude frames it as a real-world story first. 45 minutes, no AI, write tests, think out loud.")); }
         }
+        if (CHAI_AT[date] !== undefined) { var ch = CHAI[CHAI_AT[date]]; day.tasks.push(t("chai", "Credit round " + (CHAI_AT[date] + 1) + " of 5: " + ch[0], ch[1] + " Fixed date, because credits expire 30 days after purchase: sit it today whatever plan day you are on. Write the debrief's three 'practise next' points into the failure log.")); }
         day.dsa.forEach(function (lc) { DAYOF[lc] = idx; });
         ALL.push(day);
       }
