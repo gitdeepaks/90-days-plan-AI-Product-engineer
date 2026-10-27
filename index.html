@@ -1175,6 +1175,8 @@
       rev: { label: "Revision", color: "var(--rev)", time: "" },
       story: { label: "Stories and deep dives", color: "var(--fri)", time: "" },
       def: { label: "Resume defense, 30 min", color: "var(--fri)", time: "6:30" },
+      co: { label: "Company practical, 45 min", color: "var(--mock)", time: "3:30" },
+      chai: { label: "AI-era interview round", color: "var(--mock)", time: "3:00" },
       post: { label: "Learn in public, 15 min", color: "var(--build)", time: "7:00" }
     };
 
@@ -1677,6 +1679,25 @@
       ]
     ];
 
+    /* ---------- sibling problems (Google/Meta lists) and company practicals ---------- */
+    var SIB = { [P.AH]: [[560, "Subarray Sum Equals K", "subarray-sum-equals-k"], [525, "Contiguous Array", "contiguous-array"], [205, "Isomorphic Strings", "isomorphic-strings"], [169, "Majority Element", "majority-element"], [36, "Valid Sudoku", "valid-sudoku"]], [P.TP]: [[16, "3Sum Closest", "3sum-closest"], [18, "4Sum", "4sum"], [283, "Move Zeroes", "move-zeroes"], [88, "Merge Sorted Array", "merge-sorted-array"], [31, "Next Permutation", "next-permutation"]], [P.SW]: [[209, "Minimum Size Subarray Sum", "minimum-size-subarray-sum"], [1004, "Max Consecutive Ones III", "max-consecutive-ones-iii"], [567, "Permutation in String", "permutation-in-string"], [76, "Minimum Window Substring", "minimum-window-substring"]], [P.ST]: [[394, "Decode String", "decode-string"], [735, "Asteroid Collision", "asteroid-collision"], [71, "Simplify Path", "simplify-path"], [907, "Sum of Subarray Minimums", "sum-of-subarray-minimums"], [84, "Largest Rectangle in Histogram", "largest-rectangle-in-histogram"]], [P.BS]: [[33, "Search in Rotated Sorted Array", "search-in-rotated-sorted-array"], [34, "Find First and Last Position of Element in Sorted Array", "find-first-and-last-position-of-element-in-sorted-array"], [875, "Koko Eating Bananas", "koko-eating-bananas"], [410, "Split Array Largest Sum", "split-array-largest-sum"], [4, "Median of Two Sorted Arrays", "median-of-two-sorted-arrays"]], [P.LL]: [[2, "Add Two Numbers", "add-two-numbers"], [138, "Copy List with Random Pointer", "copy-list-with-random-pointer"], [19, "Remove Nth Node From End of List", "remove-nth-node-from-end-of-list"], [25, "Reverse Nodes in k-Group", "reverse-nodes-in-k-group"]], [P.RB]: [[90, "Subsets II", "subsets-ii"], [39, "Combination Sum", "combination-sum"], [17, "Letter Combinations of a Phone Number", "letter-combinations-of-a-phone-number"], [22, "Generate Parentheses", "generate-parentheses"], [79, "Word Search", "word-search"], [51, "N-Queens", "n-queens"]], [P.TR]: [[124, "Binary Tree Maximum Path Sum", "binary-tree-maximum-path-sum"], [102, "Binary Tree Level Order Traversal", "binary-tree-level-order-traversal"], [236, "Lowest Common Ancestor of a Binary Tree", "lowest-common-ancestor-of-a-binary-tree"], [199, "Binary Tree Right Side View", "binary-tree-right-side-view"]], [P.HP]: [[215, "Kth Largest Element in an Array", "kth-largest-element-in-an-array"], [23, "Merge k Sorted Lists", "merge-k-sorted-lists"]], [P.GR]: [[200, "Number of Islands", "number-of-islands"], [994, "Rotting Oranges", "rotting-oranges"], [417, "Pacific Atlantic Water Flow", "pacific-atlantic-water-flow"], [130, "Surrounded Regions", "surrounded-regions"], [399, "Evaluate Division", "evaluate-division"]], [P.IG]: [[56, "Merge Intervals", "merge-intervals"], [57, "Insert Interval", "insert-interval"], [55, "Jump Game", "jump-game"], [45, "Jump Game II", "jump-game-ii"]], [P.TI]: [[208, "Implement Trie (Prefix Tree)", "implement-trie-prefix-tree"], [211, "Design Add and Search Words Data Structure", "design-add-and-search-words-data-structure"]], [P.DP]: [[198, "House Robber", "house-robber"], [322, "Coin Change", "coin-change"], [300, "Longest Increasing Subsequence", "longest-increasing-subsequence"], [494, "Target Sum", "target-sum"], [72, "Edit Distance", "edit-distance"]], [P.DM]: [[54, "Spiral Matrix", "spiral-matrix"], [48, "Rotate Image", "rotate-image"], [73, "Set Matrix Zeroes", "set-matrix-zeroes"], [146, "LRU Cache", "lru-cache"]] };
+    var COMPANY = [[2622, "Cache With Time Limit", "Netflix", "A key-value cache where entries expire. Your KV store with TTL, in interview form.", "cache-with-time-limit"], [981, "Time Based Key-Value Store", "Netflix, OpenAI", "Store versions per key and read the latest at or before a timestamp. Binary search on history.", "time-based-key-value-store"], [146, "LRU Cache", "OpenAI", "Evict the least recently used entry in O(1). Map + doubly linked list.", "lru-cache"], [362, "Design Hit Counter", "OpenAI", "Count hits in the last 5 minutes. Your rate limiter's sliding window again.", "design-hit-counter"], [1146, "Snapshot Array", "OpenAI", "Cheap snapshots of a big array. Store changes per index, binary search by snapshot id.", "snapshot-array"], [636, "Exclusive Time of Functions", "Anthropic", "Parse start/end logs and attribute CPU time. Stack of running calls.", "exclusive-time-of-functions"], [1236, "Web Crawler", "Anthropic", "Crawl every URL on one hostname. BFS with a visited set.", "web-crawler"], [1242, "Web Crawler Multithreaded", "Anthropic", "Same crawler, concurrent. In JS: a promise pool with a concurrency limit.", "web-crawler-multithreaded"], [341, "Flatten Nested List Iterator", "OpenAI", "An iterator over nested lists. Stack-based lazy flattening.", "flatten-nested-list-iterator"], [71, "Simplify Path", "OpenAI", "Resolve a Unix path with . and .. using a stack.", "simplify-path"], [735, "Asteroid Collision", "OpenAI", "Simulate collisions with a stack.", "asteroid-collision"], [994, "Rotting Oranges", "OpenAI", "Multi-source BFS over a grid, counting minutes.", "rotting-oranges"], [271, "Encode and Decode Strings", "OpenAI", "Serialize a list of strings safely. Length-prefix framing.", "encode-and-decode-strings"], [609, "Find Duplicate File in System", "OpenAI, Anthropic", "Group files by content with a hash map. Then discuss huge files and hashing.", "find-duplicate-file-in-system"], [1797, "Design Authentication Manager", "OpenAI", "Tokens with expiry and renewal. TTL bookkeeping again.", "design-authentication-manager"], [2502, "Design Memory Allocator", "OpenAI", "Allocate and free contiguous blocks by id.", "design-memory-allocator"], [631, "Design Excel Sum Formula", "OpenAI", "Cells with formulas that depend on other cells.", "design-excel-sum-formula"], [3484, "Design Spreadsheet", "OpenAI", "Parse and evaluate simple cell formulas.", "design-spreadsheet"]];
+    function sibFor(q, r) { var l = (SIB[q.pat] || []).filter(function (x) { return x[0] !== q.lc; }); if (!l.length) return null; return l[(q.lc + (r.revs || 0)) % l.length]; }
+
+    var CHAI = [
+      ["ChaiCode AI coding interview: \"A bucket of tokens per client\" (TypeScript, 1 credit)", "dsa.chaicode.com/lab/ai-coding. A token-bucket rate limiter: Read, Fix, Extend, Make it fast, with the assistant allowed. You built a sliding-window limiter in your mock, so compare. Graded on how you steer the assistant: name the class and the approach, and run the code. Use this credit before 4 Nov."],
+      ["ChaiCode code review, senior bar: \"Rate limiter middleware\" or \"Payment webhook\" (1 credit)", "dsa.chaicode.com/lab/code-review. Comment as what's wrong / why it matters / what instead, serious issues first. Approving can be right; red herrings cost you."],
+      ["ChaiCode LLD round: \"Jobs that must not run twice\" (1 credit)", "dsa.chaicode.com/lab/lld. Scope, Pieces, Shape, Walkthrough, Pressure. Ties straight into idempotency and your KV store."],
+      ["ChaiCode system design round: \"A rate limiter for a public API\" or \"A web crawler\" (1 credit)", "dsa.chaicode.com/lab/system-design as a real 45-minute interview: Goals, Data, API, Sketch, Hard parts, Wrap-up. Put a number on every quality goal."],
+      ["ChaiCode AI coding interview: \"LRU Cache\" or \"Duplicate messages\" (TypeScript, 1 credit)", "Second AI coding round. Compare the debrief with the first: did your prompts get more specific?"],
+      ["ChaiCode code review, senior bar (1 credit)", "Second review round. Lead with the most serious issue first."]
+    ];
+    var CHAI_FREE = {
+      "2026-10-27": ["ChaiCode system design PRACTICE (free till 30 Oct): \"A rate limiter for a public API\"", "dsa.chaicode.com/lab/system-design, practice mode: no clock, feedback after every step, sample answer at the end. Everything on ChaiCode is unlocked until 30 Oct, so use it now."],
+      "2026-10-28": ["ChaiCode system design PRACTICE (free till 30 Oct): \"A web crawler for a search startup\"", "Anthropic asks web crawler problems on LeetCode too. Practice mode, no clock."],
+      "2026-10-29": ["ChaiCode LLD walkthrough (free) + one more SD practice before the unlock ends", "LLD: the first round is free and coached. SD practice: \"Notifications for a shopping app\" or \"A live leaderboard\". The unlock ends 30 Oct."]
+    };
+
     /* ---------- date helpers ---------- */
     function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
     function parse(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
@@ -1691,7 +1712,7 @@
     /* ---------- build the 90 days ---------- */
     var START = "2026-10-15", ALL = [], DAYOF = {};
     (function () {
-      var qi = { js: 0, react: 0, node: 0, fri: 0, des: 0, hld: 0, build: 0, mock: 0, story: 0, def: 0 };
+      var qi = { js: 0, react: 0, node: 0, fri: 0, des: 0, hld: 0, build: 0, mock: 0, story: 0, def: 0, co: 0, chai: 0 };
       var dq = [0, 0, 0], sq = [0, 0, 0];
       var week = { js: [], hld: [] };
       function take(name, arr) { var it = arr[qi[name]]; if (!it) it = arr[arr.length - 1]; qi[name]++; return it; }
@@ -1717,6 +1738,7 @@
           day.tasks.push(t("rev", "Weekly review, 30 minutes", "Mock scores, then every mistake from this week's 3-line notes. Update your NEW / LEARNING / KNOWN / WEAK buckets."));
           day.tasks.push(t("rev", "Failure log, 10 minutes", "This week I avoided: … This week I froze at: … One fix for next week: … Facts, not judgments. The fix line is the only one that matters."));
           day.tasks.push(t("build", "Ship this week's visible output", "A demo, a note, a PR or a diagram, posted or pushed. If nothing shipped, one line on why."));
+          if (date >= "2026-10-31" && CHAI[qi.chai]) { var ch = CHAI[qi.chai++]; day.tasks.push(t("chai", ch[0], ch[1] + " Write the debrief's three 'practise next' points into the weekly review.")); }
         } else if (wd === 0) {
           day.kind = "rev"; day.focus = "Revision day";
           var rb = week.js.length ? week.js[0] : "one coding problem from this week", rd = week.hld.length ? week.hld[week.hld.length - 1] : "one design from this week";
@@ -1752,6 +1774,8 @@
             else day.tasks.push(t("post", "X: one thing you learned today", "Turn today's 30-second script or 3-line note into a short post. Name your mistake, not just the answer. Never paste a full solution. In English."));
           }
           if (date >= "2026-10-22" && RDEF[qi.def]) { var rd = RDEF[qi.def++]; day.tasks.push(t("def", rd[0], rd[1])); }
+          if (CHAI_FREE[date]) { var cf = CHAI_FREE[date]; day.tasks.push(t("chai", cf[0], cf[1])); }
+          if (date >= "2026-10-28" && wd === 3 && COMPANY[qi.co]) { var cp = COMPANY[qi.co++]; day.tasks.push(t("co", "LC " + cp[0] + " " + cp[1] + " (" + cp[2] + ")", cp[3] + " Claude frames it as a real-world story first. 45 minutes, no AI, write tests, think out loud.")); }
         }
         day.dsa.forEach(function (lc) { DAYOF[lc] = idx; });
         ALL.push(day);
@@ -1909,8 +1933,8 @@
     /* revision levels */
     var LV = {
       L1: { k: "L1", name: "Recall", min: 2, how: "Title only: say the pattern, the invariant and the approach out loud." },
-      L2: { k: "L2", name: "Sketch", min: 5, how: "Write the core lines from memory, then check your note." },
-      L3: { k: "L3", name: "Full solve", min: 20, how: "Blank editor, timer on, full code and a dry run." }
+      L2: { k: "L2", name: "Sibling", min: 15, how: "Solve the sibling problem below from a short real-world story. Spot the pattern yourself first, then code it. No rote recall." },
+      L3: { k: "L3", name: "Sibling, timed", min: 25, how: "Interview mode on the sibling below: restate it, brute force, then optimal, timer on, think out loud in English." }
     };
     var LVSEQ = [LV.L1, LV.L2, LV.L1, LV.L2, LV.L3];
     function levelOf(r) { if (r.st === "WEAK") return LV.L3; return LVSEQ[r.revs || 0] || LV.L3; }
@@ -1958,7 +1982,10 @@
       var left = document.createElement("div");
       var a = document.createElement("a"); a.href = link(q); a.target = "_blank"; a.rel = "noopener"; a.textContent = "LC " + q.lc + ". " + q.title; left.appendChild(a);
       var m = document.createElement("div"); m.className = "qm";
-      if (mode === "due") { var l = levelOf(rec(q.lc)); m.appendChild(lvlTag(l)); m.appendChild(document.createTextNode(l.min + " min. " + l.how)); }
+      if (mode === "due") {
+        var l = levelOf(rec(q.lc)); m.appendChild(lvlTag(l)); m.appendChild(document.createTextNode(l.min + " min. " + l.how));
+        if (l.k !== "L1") { var sb = sibFor(q, rec(q.lc)); if (sb) { var sa = document.createElement("a"); sa.href = "https://leetcode.com/problems/" + sb[2] + "/"; sa.target = "_blank"; sa.rel = "noopener"; sa.textContent = " Sibling: LC " + sb[0] + ". " + sb[1]; m.appendChild(sa); } }
+      }
       else m.textContent = q.pat + ". Mark it once you've solved it.";
       left.appendChild(m);
       var bt = document.createElement("div"); bt.className = "btns";
