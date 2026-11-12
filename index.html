@@ -1196,7 +1196,7 @@
       story: { label: "Stories and deep dives", color: "var(--fri)", time: "" },
       def: { label: "Resume defense, 30 min", color: "var(--fri)", time: "6:30" },
       co: { label: "Company practical, 45 min", color: "var(--mock)", time: "3:30" },
-      chai: { label: "AI-era interview round", color: "var(--mock)", time: "3:00" },
+      chai: { label: "Mock round with Claude", color: "var(--mock)", time: "3:00" },
       post: { label: "Learn in public, 15 min", color: "var(--build)", time: "7:00" }
     };
 
@@ -1297,8 +1297,8 @@
     var JS = [
       ["KV store", "Key-value store, levels 1–2: set, get, delete, scan by prefix", "Plain class with a Map. Test with console.assert. Same shape as Anthropic's reported assessment."],
       ["KV store TTL", "Key-value store, levels 3–4: TTL, then backup and restore", "Every call takes a timestamp. Restore must recompute remaining TTLs."],
-      ["Event emitter", "EventEmitter: on, off, once, emit", "Edge case: a listener that removes itself while emit is running."],
-      ["Promise pool", "Promise pool: runWithLimit(tasks, n)", "Results in input order. One failure must not kill the pool."],
+      ["Event emitter", "EventEmitter: on, off, once, emit", "Edge case: a listener that removes itself while emit is running. GreatFrontEnd: Event Emitter (search the name)."],
+      ["Promise pool", "Promise pool: runWithLimit(tasks, n)", "Results in input order. One failure must not kill the pool. GreatFrontEnd: Map Async Limit (search the name)."],
       ["Retry", "Retry with exponential backoff, jitter and timeout", "Make it cancellable with AbortController."],
       ["Async crawler", "Async web crawler: same host only, dedupe, concurrency limit", "LC 1242 in JavaScript. Reported for Anthropic. Reuse your pool and retry."],
       ["LRU cache", "LRU cache, then add TTL", "First with Map ordering, then with a doubly linked list."],
@@ -1307,9 +1307,9 @@
       ["Bank system 2", "Banking system, levels 3–4: scheduled payments, merging accounts, history", ""],
       ["File system", "In-memory file system: mkdir, ls, write, read, move, size", "Directory size recursively at the end."],
       ["Task scheduler", "Task scheduler with dependencies", "Topological sort, cycle detection, concurrency limit."],
-      ["Promise polyfills", "Polyfills: Promise.all, allSettled, race, any", "Explain each one's failure behaviour out loud."],
-      ["Debounce, throttle", "Polyfills: debounce, throttle with leading and trailing, memoize with TTL", ""],
-      ["Deep clone", "Deep clone and deep equal", "Handle cycles, Map, Set and Date."],
+      ["Promise polyfills", "Polyfills: Promise.all, allSettled, race, any", "Explain each one's failure behaviour out loud. GreatFrontEnd: Promise.all, Promise.allSettled, Promise.race, Promise.any (search the name)."],
+      ["Debounce, throttle", "Polyfills: debounce, throttle with leading and trailing, memoize with TTL", "GreatFrontEnd: Debounce, Throttle, Memoize (search the name)."],
+      ["Deep clone", "Deep clone and deep equal", "Handle cycles, Map, Set and Date. GreatFrontEnd: Deep Clone, Deep Equal (search the name)."],
       ["Event loop drill", "Event loop: predict the output of 20 snippets", "Microtasks vs macrotasks, async/await ordering."],
       ["SSE parser", "SSE stream parser for LLM output", "Chunks split mid-line, tool-call JSON assembled across chunks."],
       ["Cost meter", "Token and cost meter with a credit check before each run", "Per user, per model. Like the billing you built in NewCode."],
@@ -1317,18 +1317,18 @@
       ["Job queue", "In-memory job queue: priorities, retries, dead-letter list", ""],
       ["Reactive store", "Tiny reactive store: subscribe, selectors, batched updates", "A minimal Zustand."],
       ["JSON diff", "Diff two JSON objects, then apply the patch", ""],
-      ["Path utils", "get, set and unset by path; flatten and unflatten objects", ""],
+      ["Path utils", "get, set and unset by path; flatten and unflatten objects", "GreatFrontEnd: Get, Flatten (search the name)."],
       ["Timed KV store", "Timed: progressive KV store from a blank file, 90 minutes", "No AI, no notes."],
       ["Timed crawler", "Timed: async crawler from scratch, 60 minutes", ""],
       ["Timed LRU", "Timed: LRU cache with TTL, 45 minutes", ""]
     ];
     var REACT = [
-      ["Autocomplete", "Autocomplete: debounce, cache, abort stale requests, keyboard navigation", "Concept to revise: useEffect cleanup and race conditions."],
-      ["Virtual list", "Infinite scroll, then a virtualised list of 10,000 rows", "Concept: when React re-renders, React.memo, keys."],
-      ["Tabs and accordion", "Accessible tabs and accordion", "Concept: ARIA roles, focus management, compound components."],
-      ["Modal", "Modal with a portal and a focus trap", "Concept: portals, refs, useLayoutEffect vs useEffect."],
-      ["File explorer", "File explorer tree: expand, add, rename, delete", "Concept: normalised vs nested state."],
-      ["Data table", "Data table: sort, filter, paginate", "Concept: useMemo, derived state, never duplicating state."],
+      ["Autocomplete", "Autocomplete: debounce, cache, abort stale requests, keyboard navigation", "Concept to revise: useEffect cleanup and race conditions. GreatFrontEnd: the Autocomplete system design question (search the name)."],
+      ["Virtual list", "Infinite scroll, then a virtualised list of 10,000 rows", "Concept: when React re-renders, React.memo, keys. GreatFrontEnd: Job Board (done), then the News Feed system design (search the name)."],
+      ["Tabs and accordion", "Accessible tabs and accordion", "Concept: ARIA roles, focus management, compound components. GreatFrontEnd: Tabs, Accordion (search the name)."],
+      ["Modal", "Modal with a portal and a focus trap", "Concept: portals, refs, useLayoutEffect vs useEffect. GreatFrontEnd: Modal Dialog (search the name)."],
+      ["File explorer", "File explorer tree: expand, add, rename, delete", "Concept: normalised vs nested state. GreatFrontEnd: File Explorer (search the name)."],
+      ["Data table", "Data table: sort, filter, paginate", "Concept: useMemo, derived state, never duplicating state. GreatFrontEnd: Data Table (search the name)."],
       ["Streaming chat UI", "Chat UI with streaming tokens, a stop button and retry", "Concept: reading a fetch stream, AbortController. OpenAI's reported frontend round is a small piece of ChatGPT."],
       ["Form hook", "Form with your own useForm hook and validation", "Concept: controlled vs uncontrolled inputs, custom hooks."],
       ["Kanban", "Kanban board with drag and drop", "Concept: optimistic updates and rollback."],
@@ -1358,9 +1358,9 @@
       ["AI-assisted round", "AI-assisted round, self-run: read, fix, extend, make it fast", "Explore the files yourself first. Write 3–4 lines of pseudo-code as comments, then prompt Claude with the class and approach named. 50-minute timer. Run the code every time."],
       ["TS types 2", "TypeScript: infer and template literal types", "Three medium type-challenges."],
       ["Code review 2", "Code review: read a merged vercel/ai PR and write your own review", ""],
-      ["AI-assisted round 2", "AI-assisted coding round on ChaiCode (optional, paid) or self-run", "Afterwards: which prompt was vague, which was precise?"],
+      ["AI-assisted round 2", "AI-assisted coding round with Claude: say \"mock AI coding\"", "Afterwards: which prompt was vague, which was precise?"],
       ["TS types 3", "TypeScript: discriminated unions and exhaustive checks", "Type a reducer and an API client."],
-      ["Code review 3", "Code review round on ChaiCode (optional, paid) or any OSS PR", ""],
+      ["Code review 3", "Code review round with Claude: say \"mock code review\" (or review any OSS PR)", ""],
       ["AI-assisted round 3", "AI-assisted round, self-run on a fresh small repo", "Pseudo-code in comments first, then prompt."],
       ["TS types 4", "TypeScript: a typed event emitter and a typed fetch client", ""],
       ["Code review 4", "Code review: security and performance pass on one of your products", ""],
@@ -1424,7 +1424,7 @@
       ["Timed payments", "Timed LLD: payment router, 45 minutes", ""],
       ["Timed Splitwise", "Timed LLD: expense splitting, 45 minutes", ""],
       ["Timed agent", "Timed LLD: agent framework, 45 minutes", ""],
-      ["LLD round", "LLD round on ChaiCode (optional, paid) or Claude as interviewer", ""],
+      ["LLD round", "LLD round with Claude as the interviewer: say \"mock LLD\"", ""],
       ["Timed vending", "Timed LLD: vending machine, 45 minutes", ""],
       ["Redo weakest LLD", "Redo the LLD you scored lowest on, 45 minutes", ""],
       ["Final cheat sheet", "Final LLD cheat sheet", ""]
@@ -1548,7 +1548,7 @@
       ["Anthropic-style practical: progressive KV store, 90 minutes", "A fresh variant. Timer, no AI, no notes."],
       ["React mock: autocomplete in 60 minutes", "No AI. Narrate trade-offs as you go."],
       ["HLD mock: chat app, 45 minutes, spoken", "Record it and listen back."],
-      ["AI-assisted round mock", "ChaiCode round or self-run. Grade your own prompts afterwards."],
+      ["AI-assisted round mock", "Say \"mock AI coding\" and Claude runs it. Grade your own prompts afterwards."],
       ["LLD mock: movie ticket booking, 45 minutes", "Scope, pieces, shape, walkthrough, then a changed requirement."],
       ["Practical mock: progressive banking system, 90 minutes", ""],
       ["Code review mock: one PR, 30 minutes", ""],
@@ -1714,18 +1714,14 @@
     function sibFor(q, r) { var l = (SIB[q.pat] || []).filter(function (x) { return x[0] !== q.lc; }); if (!l.length) return null; return l[(q.lc + (r.revs || 0)) % l.length]; }
 
     var CHAI = [
-      ["ChaiCode AI coding interview: \"A bucket of tokens per client\" (TypeScript, 1 credit)", "dsa.chaicode.com/lab/ai-coding. A token-bucket rate limiter: Read, Fix, Extend, Make it fast, with the assistant allowed. You built a sliding-window limiter in your mock, so compare. Graded on how you steer the assistant: name the class and the approach, and run the code. Use this credit before 4 Nov."],
-      ["ChaiCode code review, senior bar: \"Rate limiter middleware\" or \"Payment webhook\" (1 credit)", "dsa.chaicode.com/lab/code-review. Comment as what's wrong / why it matters / what instead, serious issues first. Approving can be right; red herrings cost you."],
-      ["ChaiCode LLD round: \"Jobs that must not run twice\" (1 credit)", "dsa.chaicode.com/lab/lld. Scope, Pieces, Shape, Walkthrough, Pressure. Ties straight into idempotency and your KV store."],
-      ["ChaiCode system design round: the Tatkal rush or a ticket booking system (1 credit)", "dsa.chaicode.com/lab/system-design as a real 45-minute interview: Goals, Data, API, Sketch, Hard parts, Wrap-up. Put a number on every quality goal. You already practised the rate limiter and crawler for free, so pick a new one: your ShowTime design (owner per show, seat holds, idempotent webhooks) is the warm-up."],
-      ["ChaiCode AI coding interview: \"LRU Cache\" or \"Duplicate messages\" (TypeScript, 1 credit)", "Second AI coding round. Compare the debrief with the first: did your prompts get more specific?"]
+      ["Mock with Claude: AI-assisted coding round, \"a bucket of tokens per client\" (TypeScript)", "Say \"mock AI coding\". Claude hands you a small, partly broken token-bucket codebase: read it, fix 3 planted bugs, extend it, then make it fast. You may use an assistant; you're graded on how precisely you steer it and whether you run the code."],
+      ["Mock with Claude: code review, senior bar (\"rate limiter middleware\" or \"payment webhook\")", "Say \"mock code review\". Claude gives you a PR with hidden defects and a few red herrings. Comment as: what's wrong, why it matters, what instead. Serious issues first; approving can be the right answer."],
+      ["Mock with Claude: LLD round, \"jobs that must not run twice\"", "Say \"mock LLD\". Scope, pieces, shape, walkthrough, then Claude changes a requirement. Ties straight into idempotency and your KV store."],
+      ["Mock with Claude: system design round, the Tatkal rush or a ticket booking system", "Say \"mock system design\". 45 minutes: goals with numbers, data, API, sketch, hard parts, wrap-up. Your ShowTime design is the warm-up."],
+      ["Mock with Claude: AI-assisted coding round 2, \"LRU cache\" or \"duplicate messages\" (TypeScript)", "Second AI-assisted round. Compare with the first: did your prompts get more specific?"]
     ];
     var CHAI_AT = { "2026-10-31": 0, "2026-11-02": 1, "2026-11-04": 2, "2026-11-07": 3, "2026-11-10": 4 };
-    var CHAI_FREE = {
-      "2026-10-27": ["ChaiCode system design PRACTICE (free till 30 Oct): \"A rate limiter for a public API\"", "dsa.chaicode.com/lab/system-design, practice mode: no clock, feedback after every step, sample answer at the end. Everything on ChaiCode is unlocked until 30 Oct, so use it now."],
-      "2026-10-28": ["ChaiCode system design PRACTICE (free till 30 Oct): \"A web crawler for a search startup\"", "Anthropic asks web crawler problems on LeetCode too. Practice mode, no clock."],
-      "2026-10-29": ["ChaiCode LLD walkthrough (free) + one more SD practice before the unlock ends", "LLD: the first round is free and coached. SD practice: \"Notifications for a shopping app\" or \"A live leaderboard\". The unlock ends 30 Oct."]
-    };
+    var CHAI_FREE = {};
 
     /* ---------- date helpers ---------- */
     function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
@@ -1795,7 +1791,7 @@
           day.focus = (pats[0] || "DSA") + ", " + item[0];
           if (idx >= 13 && !pair.length) { dTitle = "WEAK list redo: 2 problems, closed book"; dNote = "Namaste DSA order is finished. Pick two from the WEAK bucket on the DSA sheet and solve them out loud."; }
           day.tasks = [t("dsa", dTitle || "DSA", dNote), t(ck, item[1], item[2])];
-          day.tasks.push(t("des", de[1], de[2]));
+          day.tasks.push(t("des", de[1], de[2] + " No Start.dev access? Say \"teach me: " + de[1] + "\" and Claude runs the lesson with the ticket-desk example."));
           if (INTERNALS[date]) day.tasks.push(t("db", INTERNALS[date][0], INTERNALS[date][1] + " This takes today's HLD slot."));
           else day.tasks.push(t("hld", h[1], h[2]));
           day.tasks.push(t("build", b[0], b[1]));
@@ -1807,7 +1803,7 @@
           if (CHAI_FREE[date]) { var cf = CHAI_FREE[date]; day.tasks.push(t("chai", cf[0], cf[1])); }
           if (date >= "2026-10-28" && wd === 3 && COMPANY[qi.co]) { var cp = COMPANY[qi.co++]; day.tasks.push(t("co", "LC " + cp[0] + " " + cp[1] + " (" + cp[2] + ")", cp[3] + " Claude frames it as a real-world story first. 45 minutes, no AI, write tests, think out loud.")); }
         }
-        if (CHAI_AT[date] !== undefined) { var ch = CHAI[CHAI_AT[date]]; day.tasks.push(t("chai", "Credit round " + (CHAI_AT[date] + 1) + " of 5: " + ch[0], ch[1] + " Fixed date, because credits expire 30 days after purchase: sit it today whatever plan day you are on. Write the debrief's three 'practise next' points into the failure log.")); }
+        if (CHAI_AT[date] !== undefined) { var ch = CHAI[CHAI_AT[date]]; day.tasks.push(t("chai", "Mock round " + (CHAI_AT[date] + 1) + " of 5: " + ch[0].replace("Mock with Claude: ", ""), ch[1] + " Write the debrief's three 'practise next' points into the failure log.")); }
         day.dsa.forEach(function (lc) { DAYOF[lc] = idx; });
         ALL.push(day);
       }
