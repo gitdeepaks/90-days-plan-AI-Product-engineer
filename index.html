@@ -1197,7 +1197,8 @@
       def: { label: "Resume defense, 30 min", color: "var(--fri)", time: "6:30" },
       co: { label: "Company practical, 45 min", color: "var(--mock)", time: "3:30" },
       chai: { label: "Mock round with Claude", color: "var(--mock)", time: "3:00" },
-      post: { label: "Learn in public, 15 min", color: "var(--build)", time: "7:00" }
+      post: { label: "Learn in public, 15 min", color: "var(--build)", time: "7:00" },
+      apps: { label: "Applications, 30 min", color: "var(--mock)", time: "10:30" }
     };
 
     /* ---------- DSA master list: lc -> [title, slug, diff, pattern] ---------- */
@@ -1429,6 +1430,7 @@
       ["Redo weakest LLD", "Redo the LLD you scored lowest on, 45 minutes", ""],
       ["Final cheat sheet", "Final LLD cheat sheet", ""]
     ];
+    var UDEMY = { "Basics": "Sec 1 Foundations (DNS, HTTP and APIs) + Sec 2 Estimation + Sec 3 The Interview: A Four-Step Framework", "Scaling": "Sec 1 Foundations: Vertical vs Horizontal Scaling, Load Balancers, Stateless Servers", "Caching": "Sec 1 Foundations: Caching, CDNs", "Databases": "Sec 1 Foundations: Relational vs NoSQL", "Replication": "Sec 1 Foundations: Database Replication, Sharding", "CAP": "Sec 6 Design Key-Value Store (CAP, quorum, consistency)", "Queues": "Sec 1 Foundations: Message Queues + Sec 19 Design Message Queue", "Rate limiting": "Sec 4 Design Rate Limiter + Sec 5 Consistent Hashing", "URL shortener": "Sec 7 Design Unique ID Generator + Sec 8 Design URL Shortener", "Distributed limiter": "Sec 4 Design Rate Limiter (rewatch the distributed part)", "Notifications": "Sec 10 Design Notification System", "Chat app": "Sec 12 Design WhatsApp", "News feed": "Sec 11 Design Instagram's Feed", "LLM chat app": "Sec 20 Design AI Chatbot", "Spoken mock": "Sec 3 The Interview: A Four-Step Framework (rewatch before you record)", "Job queue": "Sec 19 Design Message Queue", "File cache": "Sec 15 Design Google Drive (sync and storage parts)", "Web crawler": "Sec 9 Design Web Crawler", "Edge and CDN": "Sec 1 Foundations: CDNs", "Audio streaming": "Sec 14 Design YouTube", "ChatGPT": "Sec 20 Design AI Chatbot", "Search 1B docs": "Sec 13 Design Search Autocomplete (indexing ideas)", "Timed ChatGPT": "Sec 20 Design AI Chatbot (skim your notes, then go timed)" };
     var HLD = [
       ["Basics", "Client-server basics and latency numbers", "Draw the life of one HTTP request on Excalidraw."],
       ["Scaling", "Vertical vs horizontal scaling, load balancers", ""],
@@ -1478,6 +1480,29 @@
       ["Observability", "Observability, scaling and optimization: trace agent and MCP calls, token usage, caching, rate limits, alerts", "One trace span per model call, tool call and MCP call. Track failures, tokens and cost per request. Cache what you can, rate-limit per user, move slow work to async jobs. Which alert wakes you up at 3 AM?"],
       ["Capstone", "Production capstone: review architecture, security, reliability and cost of your own agent product, 60 minutes", "NewCode or AIChatWave. Defend each design decision, show how it fails safely, and give cost and latency numbers. Present it like a live demo. Say \"capstone\" and Claude plays the reviewer."],
       ["Final summaries", "Final one-page summary of every design", ""]
+    ];
+    var BUILD2 = [
+      ["Voice Interviewer Day 0: CLAUDE.md, plan review, project skills", "Done on 15 Nov. docs/build_plan.md and docs/gaps.md are committed."],
+      ["Voice Interviewer Day 1: Bun, Zod schema, prompt from data, category picker", "Open docs/build_plan.md, Day 1. Claude Code in plan mode first, then review the diff with the day's 'You review' list. Run the app before merging."],
+      ["Voice Interviewer Day 2: private agent and a server-side conversation token", "docs/build_plan.md, Day 2. Check the client bundle for your key prefix before merging."],
+      ["Voice Interviewer Day 3: Clerk sign-in (proxy.ts) and an Upstash rate limit", "docs/build_plan.md, Day 3. 401 when signed out, 429 with Retry-After when hammered."],
+      ["Voice Interviewer Day 4: Prisma + Neon, daily quota with an advisory lock", "docs/build_plan.md, Day 4. Be ready to explain why the lock is needed (write skew)."],
+      ["Voice Interviewer Day 5: post-call webhook, raw-body HMAC, conditional update", "docs/build_plan.md, Day 5. Replay the same payload: nothing should change."],
+      ["Voice Interviewer Day 6: per-question feedback report, off the request path", "docs/build_plan.md, Day 6. Decide whether to drop the spoken feedback."],
+      ["Voice Interviewer Day 7: UX hardening", "docs/build_plan.md, Day 7. Deny the mic, kill the Wi-Fi mid-call, hit the limit."],
+      ["Voice Interviewer Day 8: tests and GitHub Actions CI", "docs/build_plan.md, Day 8. Break one thing on purpose and watch CI go red."],
+      ["Voice Interviewer Day 9: env validation, error tracking, Vercel production deploy", "docs/build_plan.md, Day 9. One full call on production, found in the logs."],
+      ["Voice Interviewer Day 10: README, architecture diagram, 60-second demo, launch post", "docs/build_plan.md, Day 10. Add it to your resume and to your ElevenLabs applications."],
+      ["Voice Interviewer: share it with 5 people, fix the top piece of feedback", "Ask each person one specific question."],
+      ["NewCode evals: write 10 eval tasks with pass/fail rules", "Real coding tasks you'd give the agent. Define exactly what counts as a pass."],
+      ["NewCode evals: build the eval runner", "Run each task in a temp workspace; record pass/fail, tokens, cost and time."],
+      ["NewCode evals: add tracing", "A trace of every model call and tool call per run. Find the slowest and the most expensive step."],
+      ["NewCode evals: compare two models on the suite", "Pass rate, cost per task, latency. Real numbers you can quote in interviews."],
+      ["NewCode evals: run the suite in CI", "Fail the PR when the pass rate drops."],
+      ["Post: what evals taught me about my coding agent", "Use the real numbers from the suite."],
+      ["Vercel product critique: two features you use, what you'd change", "Vercel interviews reportedly include a product critique."],
+      ["Portfolio site: demos and short videos", "Voice Interviewer, NewCode evals, and your three products."],
+      ["Build slot: fix the top issue from evals or user feedback", ""]
     ];
     var BUILD = [
       ["Fork vercel/ai, run tests locally, read the contributing guide", "Post #1 on LinkedIn: announce your 90-day plan."],
@@ -1737,7 +1762,7 @@
     /* ---------- build the 90 days ---------- */
     var START = "2026-10-15", ALL = [], DAYOF = {};
     (function () {
-      var qi = { js: 0, react: 0, node: 0, fri: 0, des: 0, hld: 0, build: 0, mock: 0, story: 0, def: 0, co: 0, chai: 0 };
+      var qi = { js: 0, react: 0, node: 0, fri: 0, des: 0, hld: 0, build: 0, build2: 0, mock: 0, story: 0, def: 0, co: 0, chai: 0 };
       var dq = [0, 0, 0], sq = [0, 0, 0], ni = 0;
       var week = { js: [], hld: [] };
       function take(name, arr) { var it = arr[qi[name]]; if (!it) it = arr[arr.length - 1]; qi[name]++; return it; }
@@ -1787,21 +1812,27 @@
           else if (wd === 4) { ck = "node"; item = take("node", NODE); }
           else if (wd === 5) { ck = "fri"; item = take("fri", FRI); }
           else { ck = "js"; item = take("js", JS); week.js.push(item[0]); }
-          var de = take("des", DES), h = INTERNALS[date] ? null : take("hld", HLD), b = take("build", BUILD); if (h) week.hld.push(h[1]);
+          var de = take("des", DES), h = INTERNALS[date] ? null : take("hld", HLD), b = idx >= 16 ? take("build2", BUILD2) : take("build", BUILD); if (h) week.hld.push(h[1]);
           day.focus = (pats[0] || "DSA") + ", " + item[0];
           if (idx >= 13 && !pair.length) { dTitle = "WEAK list redo: 2 problems, closed book"; dNote = "Namaste DSA order is finished. Pick two from the WEAK bucket on the DSA sheet and solve them out loud."; }
           day.tasks = [t("dsa", dTitle || "DSA", dNote), t(ck, item[1], item[2])];
           day.tasks.push(t("des", de[1], de[2] + " No Start.dev access? Say \"teach me: " + de[1] + "\" and Claude runs the lesson with the ticket-desk example."));
           if (INTERNALS[date]) day.tasks.push(t("db", INTERNALS[date][0], INTERNALS[date][1] + " This takes today's HLD slot."));
-          else day.tasks.push(t("hld", h[1], h[2]));
+          else day.tasks.push(t("hld", h[1], (h[2] ? h[2] + " " : "") + (UDEMY[h[0]] ? "Udemy (System Design: Zero to Interview Hero) first: " + UDEMY[h[0]] + "." : "")));
           day.tasks.push(t("build", b[0], b[1]));
-          if (!/^Post #/.test(b[0])) {
+          if (idx >= 17) {
+            day.tasks.push(t("post", "LinkedIn and X post, plus a 40-second Instagram reel", "Say \"aaj ka content\" and Claude gives you the post and the reel script from today's learning. One concept, taught, in English. Reel: one or two takes on your phone, auto-captions, 15 minutes max."));
+          } else if (!/^Post #/.test(b[0])) {
             if (wd === 2 || wd === 4) day.tasks.push(t("post", "LinkedIn and X: explain today's design or HLD idea", "One concept, one diagram, and the trade-off you'd mention in an interview. Write it in English, for someone who's never seen it."));
             else day.tasks.push(t("post", "X: one thing you learned today", "Turn today's 30-second script or 3-line note into a short post. Name your mistake, not just the answer. Never paste a full solution. In English."));
           }
           if (date >= "2026-10-22" && RDEF[qi.def]) { var rd = RDEF[qi.def++]; day.tasks.push(t("def", rd[0], rd[1])); }
           if (CHAI_FREE[date]) { var cf = CHAI_FREE[date]; day.tasks.push(t("chai", cf[0], cf[1])); }
           if (date >= "2026-10-28" && wd === 3 && COMPANY[qi.co]) { var cp = COMPANY[qi.co++]; day.tasks.push(t("co", "LC " + cp[0] + " " + cp[1] + " (" + cp[2] + ")", cp[3] + " Claude frames it as a real-world story first. 45 minutes, no AI, write tests, think out loud.")); }
+        }
+        if (idx >= 16 && (day.kind === "work" || day.kind === "mock")) {
+          var firstApps = !qi.apps; qi.apps = (qi.apps || 0) + 1;
+          day.tasks.push(t("apps", "Apply to 3 targeted roles and send 1 referral request", (firstApps ? "First applications day: fix the resume's Open Source line first (\"Diagnosed the bug and opened PR #23945; the fix shipped upstream in #24080.\"), then say \"target list\" and Claude builds the company list with you. " : "") + "Only roles that pass your filter: JS/TS AI product work, fully remote or hybrid in Jaipur/Gurugram. Tailor the top 3 resume lines to each role. The referral message leads with something you built, not a request. Log company, role, date and link."));
         }
         if (CHAI_AT[date] !== undefined) { var ch = CHAI[CHAI_AT[date]]; day.tasks.push(t("chai", "Mock round " + (CHAI_AT[date] + 1) + " of 5: " + ch[0].replace("Mock with Claude: ", ""), ch[1] + " Write the debrief's three 'practise next' points into the failure log.")); }
         day.dsa.forEach(function (lc) { DAYOF[lc] = idx; });
@@ -1832,7 +1863,7 @@
     function weekStart(s) { var d = parse(s), w = d.getDay(), back = w === 0 ? 6 : w - 1; d.setDate(d.getDate() - back); return iso(d); }
     function renderLegend() {
       var l = document.getElementById("legend"); l.innerHTML = "";
-      ["dsa", "js", "react", "node", "db", "fri", "des", "hld", "build", "story", "post"].forEach(function (k) { var s = document.createElement("span"); s.innerHTML = '<i class="dot" style="background:' + T[k].color + '"></i>'; s.appendChild(document.createTextNode(T[k].label.replace(", no AI", ""))); l.appendChild(s); });
+      ["dsa", "js", "react", "node", "db", "fri", "des", "hld", "build", "story", "post", "apps"].forEach(function (k) { var s = document.createElement("span"); s.innerHTML = '<i class="dot" style="background:' + T[k].color + '"></i>'; s.appendChild(document.createTextNode(T[k].label.replace(", no AI", ""))); l.appendChild(s); });
       var x = document.createElement("span"); x.textContent = "Dashed = mock, bold = checkpoint"; l.appendChild(x);
     }
     var firstPlan = true;
