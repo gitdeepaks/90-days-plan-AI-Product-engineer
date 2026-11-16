@@ -1198,7 +1198,8 @@
       co: { label: "Company practical, 45 min", color: "var(--mock)", time: "3:30" },
       chai: { label: "Mock round with Claude", color: "var(--mock)", time: "3:00" },
       post: { label: "Learn in public, 15 min", color: "var(--build)", time: "7:00" },
-      apps: { label: "Applications, 30 min", color: "var(--mock)", time: "10:30" }
+      apps: { label: "Applications, 30 min", color: "var(--mock)", time: "10:30" },
+      lab: { label: "ChaiCode Labs, 90 min (60 AI + 30 JS/TS)", color: "var(--node)", time: "9:00" }
     };
 
     /* ---------- DSA master list: lc -> [title, slug, diff, pattern] ---------- */
@@ -1759,12 +1760,28 @@
     function t(k, title, note) { return { k: k, title: title, note: note || "" }; }
     function qName(lc) { return "LC " + lc + " " + Q[lc][0]; }
 
+    /* ChaiCode Labs: AI engineer with TypeScript (17 labs, 381 chapters). Two tracks run side by side. */
+    var LAB_JS = [["JavaScript, inside out", 51, 3], ["TypeScript for real code", 36, 1], ["TypeScript traps", 16, 1]];
+    var LAB_AI = [["Building with LLMs (TypeScript)", 24, 1], ["Agents from scratch (TypeScript)", 18, 1], ["Evals that catch regressions in TypeScript", 16, 1], ["RAG: search that answers", 37, 1], ["MCP servers and clients in TypeScript", 16, 1], ["Harness engineering (TypeScript)", 23, 1], ["Memory and multi-agent systems in TypeScript", 16, 1], ["AI security: attack and defend (TypeScript)", 21, 1], ["Build an AI gateway (TypeScript)", 21, 1], ["Claude and the Anthropic SDK (TypeScript)", 21, 1], ["Build your own coding agent (TypeScript)", 20, 1], ["The Vercel AI SDK", 21, 1], ["AI support copilot project (TypeScript)", 12, 1], ["AI booking agent project (TypeScript)", 12, 1]];
+    var LAB_JS_PER_DAY = 2, LAB_AI_PER_DAY = 3;
+    function labTake(q, st, n) {
+      var parts = [];
+      while (n > 0 && st.i < q.length) {
+        var lab = q[st.i]; if (st.ch == null) st.ch = lab[2];
+        var left = lab[1] - st.ch + 1, take = Math.min(n, left), from = st.ch, to = st.ch + take - 1;
+        parts.push(lab[0] + " ch " + (from === to ? from : from + "\u2013" + to) + (to === lab[1] ? " (lab done)" : ""));
+        st.ch += take; n -= take; if (st.ch > lab[1]) { st.i++; st.ch = null; }
+      }
+      return parts.join(", ");
+    }
+    function labLeft(q, st) { var out = []; for (var j = st.i; j < q.length; j++) { var c = j === st.i && st.ch != null ? st.ch : q[j][2]; out.push(q[j][0] + (c > 1 ? " from ch " + c : "")); } return out; }
     /* ---------- build the 90 days ---------- */
     var START = "2026-10-15", ALL = [], DAYOF = {};
     (function () {
       var qi = { js: 0, react: 0, node: 0, fri: 0, des: 0, hld: 0, build: 0, build2: 0, mock: 0, story: 0, def: 0, co: 0, chai: 0 };
       var dq = [0, 0, 0], sq = [0, 0, 0], ni = 0;
       var week = { js: [], hld: [] };
+      var labJs = { i: 0, ch: null }, labAi = { i: 0, ch: null };
       function take(name, arr) { var it = arr[qi[name]]; if (!it) it = arr[arr.length - 1]; qi[name]++; return it; }
       for (var i = 0; i < 90; i++) {
         var date = addDays(START, i), idx = i + 1, ph = idx <= 30 ? 0 : idx <= 60 ? 1 : 2, wd = parse(date).getDay();
@@ -1786,19 +1803,24 @@
           day.focus = "Mock day";
           day.tasks = [t("mock", "Weekly timed mock: " + m[0], (m[1] ? m[1] + " " : "") + "Score it on the rubric in the Interview map tab, and write the scores in the weekly review.")];
           if (lc) { day.dsa.push(lc); if (lc2) day.dsa.push(lc2); day.tasks.push(t("dsa", (idx >= 13 ? "Namaste DSA: " : "Unseen: ") + qName(lc) + (lc2 ? " and " + qName(lc2) : ""), (idx >= 13 && NSLUG[lc] ? "Watch the Namaste DSA lesson (" + NSLUG[lc] + ") first, then solve it out loud. " : "Timer on, think out loud. ") + "Pattern: " + Q[lc][3] + ".")); }
-          day.tasks.push(t("rev", "Weekly review, 30 minutes", "Mock scores, then every mistake from this week's 3-line notes. Update your NEW / LEARNING / KNOWN / WEAK buckets."));
-          day.tasks.push(t("rev", "Failure log, 10 minutes", "This week I avoided: … This week I froze at: … One fix for next week: … Facts, not judgments. The fix line is the only one that matters."));
-          day.tasks.push(t("build", "Ship this week's visible output", "A demo, a note, a PR or a diagram, posted or pushed. If nothing shipped, one line on why."));
+          if (idx >= 17) {
+            day.tasks.push(t("rev", "Weekly review and failure log, 30 minutes", "Mock scores, every mistake from this week's 3-line notes, and your NEW / LEARNING / KNOWN / WEAK buckets. Then: applications sent and replies, ChaiCode Labs chapters done (adjust next week's pace), what shipped. Last line: this week I avoided … / froze at … / one fix for next week."));
+          } else {
+            day.tasks.push(t("rev", "Weekly review, 30 minutes", "Mock scores, then every mistake from this week's 3-line notes. Update your NEW / LEARNING / KNOWN / WEAK buckets."));
+            day.tasks.push(t("rev", "Failure log, 10 minutes", "This week I avoided: … This week I froze at: … One fix for next week: … Facts, not judgments. The fix line is the only one that matters."));
+            day.tasks.push(t("build", "Ship this week's visible output", "A demo, a note, a PR or a diagram, posted or pushed. If nothing shipped, one line on why."));
+          }
         } else if (wd === 0) {
           day.kind = "rev"; day.focus = "Revision day";
           var rb = week.js.length ? week.js[0] : "one coding problem from this week", rd = week.hld.length ? week.hld[week.hld.length - 1] : "one design from this week";
           day.tasks = [
             t("rev", "Closed-book redo of every DSA problem due today", "The DSA sheet tab lists them. Anything you can't redo goes to WEAK."),
             (function () { var st = STORIES[qi.story++] || STORIES[STORIES.length - 1]; return t("story", st[0] + " (Sunday morning)", st[1]); })(),
-            t("js", "Rebuild from a blank file: " + rb, "60-minute timer, no notes."),
-            t("hld", "Redraw from memory: " + rd, "Then compare with your notes."),
+            idx >= 17 ? null : t("js", "Rebuild from a blank file: " + rb, "60-minute timer, no notes."),
+            t("hld", "Redraw from memory: " + rd, idx >= 17 ? "15 minutes, then compare with your notes." : "Then compare with your notes."),
             t("rev", "Off after 3 PM", "Rest is part of the plan.")
           ];
+          day.tasks = day.tasks.filter(Boolean);
           week = { js: [], hld: [] };
         } else {
           day.kind = "work";
@@ -1807,19 +1829,23 @@
           pair.forEach(function (x) { if (x === "W") weak = true; else { day.dsa.push(x); names.push(qName(x)); if (pats.indexOf(Q[x][3]) < 0) pats.push(Q[x][3]); } });
           var dTitle = names.join(" and ") + (weak ? " and one WEAK redo" : "");
           var nl = day.dsa.filter(function (x) { return NSLUG[x]; }).map(function (x) { return NSLUG[x]; }); var dNote = (nl.length ? "Namaste DSA first: " + nl.join(", ") + ". " : "") + (pats.length ? "Pattern: " + pats.join(", ") + ". " : "") + (weak ? "Pick the WEAK problem from your sheet and redo it closed book. " : "") + "20 minutes alone before any hint.";
-          var ck, item;
-          if (wd === 2) { ck = "react"; item = take("react", REACT); }
+          var ck, item, NEW = idx >= 17;
+          if (NEW) { ck = null; item = null; }
+          else if (wd === 2) { ck = "react"; item = take("react", REACT); }
           else if (wd === 4) { ck = "node"; item = take("node", NODE); }
           else if (wd === 5) { ck = "fri"; item = take("fri", FRI); }
           else { ck = "js"; item = take("js", JS); week.js.push(item[0]); }
-          var de = take("des", DES), h = INTERNALS[date] ? null : take("hld", HLD), b = idx >= 16 ? take("build2", BUILD2) : take("build", BUILD); if (h) week.hld.push(h[1]);
-          day.focus = (pats[0] || "DSA") + ", " + item[0];
+          var slotH = !NEW || wd === 1 || wd === 4, slotD = !NEW || wd === 2, slotB = !NEW || wd === 3 || wd === 5;
+          var de = slotD ? take("des", DES) : null, h = (INTERNALS[date] || !slotH) ? null : take("hld", HLD), b = slotB ? (idx >= 16 ? take("build2", BUILD2) : take("build", BUILD)) : null; if (h) week.hld.push(h[1]);
+          day.focus = (pats[0] || "DSA") + ", " + (NEW ? (h ? "HLD: " + h[1] : de ? "LLD: " + de[1] : b ? b[0] : "AI engineering") : item[0]);
           if (idx >= 13 && !pair.length) { dTitle = "WEAK list redo: 2 problems, closed book"; dNote = "Namaste DSA order is finished. Pick two from the WEAK bucket on the DSA sheet and solve them out loud."; }
-          day.tasks = [t("dsa", dTitle || "DSA", dNote), t(ck, item[1], item[2])];
-          day.tasks.push(t("des", de[1], de[2] + " No Start.dev access? Say \"teach me: " + de[1] + "\" and Claude runs the lesson with the ticket-desk example."));
-          if (INTERNALS[date]) day.tasks.push(t("db", INTERNALS[date][0], INTERNALS[date][1] + " This takes today's HLD slot."));
-          else day.tasks.push(t("hld", h[1], (h[2] ? h[2] + " " : "") + (UDEMY[h[0]] ? "Udemy (System Design: Zero to Interview Hero) first: " + UDEMY[h[0]] + "." : "")));
-          day.tasks.push(t("build", b[0], b[1]));
+          day.tasks = [t("dsa", dTitle || "DSA", dNote)];
+          if (!NEW) day.tasks.push(t(ck, item[1], item[2]));
+          if (de) day.tasks.push(t("des", de[1], de[2] + " No Start.dev access? Say \"teach me: " + de[1] + "\" and Claude runs the lesson with the ticket-desk example."));
+          if (NEW && INTERNALS[date] && !slotH) { }
+          else if (INTERNALS[date]) day.tasks.push(t("db", INTERNALS[date][0], INTERNALS[date][1] + " This takes today's HLD slot."));
+          else if (h) day.tasks.push(t("hld", h[1], (h[2] ? h[2] + " " : "") + (UDEMY[h[0]] ? "Udemy (System Design: Zero to Interview Hero) first: " + UDEMY[h[0]] + "." : "")));
+          if (b) day.tasks.push(t("build", b[0], b[1]));
           if (idx >= 17) {
             day.tasks.push(t("post", "LinkedIn and X post, plus a 40-second Instagram reel", "Say \"aaj ka content\" and Claude gives you the post and the reel script from today's learning. One concept, taught, in English. Reel: one or two takes on your phone, auto-captions, 15 minutes max."));
           } else if (!/^Post #/.test(b[0])) {
@@ -1827,17 +1853,24 @@
             else day.tasks.push(t("post", "X: one thing you learned today", "Turn today's 30-second script or 3-line note into a short post. Name your mistake, not just the answer. Never paste a full solution. In English."));
           }
           if (date >= "2026-10-22" && RDEF[qi.def]) { var rd = RDEF[qi.def++]; day.tasks.push(t("def", rd[0], rd[1])); }
-          if (CHAI_FREE[date]) { var cf = CHAI_FREE[date]; day.tasks.push(t("chai", cf[0], cf[1])); }
-          if (date >= "2026-10-28" && wd === 3 && COMPANY[qi.co]) { var cp = COMPANY[qi.co++]; day.tasks.push(t("co", "LC " + cp[0] + " " + cp[1] + " (" + cp[2] + ")", cp[3] + " Claude frames it as a real-world story first. 45 minutes, no AI, write tests, think out loud.")); }
+          if (!NEW && CHAI_FREE[date]) { var cf = CHAI_FREE[date]; day.tasks.push(t("chai", cf[0], cf[1])); }
+          if (!NEW && date >= "2026-10-28" && wd === 3 && COMPANY[qi.co]) { var cp = COMPANY[qi.co++]; day.tasks.push(t("co", "LC " + cp[0] + " " + cp[1] + " (" + cp[2] + ")", cp[3] + " Claude frames it as a real-world story first. 45 minutes, no AI, write tests, think out loud.")); }
         }
         if (idx >= 16 && (day.kind === "work" || day.kind === "mock")) {
           var firstApps = !qi.apps; qi.apps = (qi.apps || 0) + 1;
           day.tasks.push(t("apps", "Apply to 3 targeted roles and send 1 referral request", (firstApps ? "First applications day: fix the resume's Open Source line first (\"Diagnosed the bug and opened PR #23945; the fix shipped upstream in #24080.\"), then say \"target list\" and Claude builds the company list with you. " : "") + "Only roles that pass your filter: JS/TS AI product work, fully remote or hybrid in Jaipur/Gurugram. Tailor the top 3 resume lines to each role. The referral message leads with something you built, not a request. Log company, role, date and link."));
         }
-        if (CHAI_AT[date] !== undefined) { var ch = CHAI[CHAI_AT[date]]; day.tasks.push(t("chai", "Mock round " + (CHAI_AT[date] + 1) + " of 5: " + ch[0].replace("Mock with Claude: ", ""), ch[1] + " Write the debrief's three 'practise next' points into the failure log.")); }
+        if (idx >= 17 && day.kind === "work") {
+          var lj = labTake(LAB_JS, labJs, LAB_JS_PER_DAY), la = labTake(LAB_AI, labAi, LAB_AI_PER_DAY);
+          var lparts = []; if (la) lparts.push("AI: " + la); if (lj) lparts.push("JS/TS: " + lj);
+          if (lparts.length) day.tasks.push(t("lab", lparts.join(" \u00b7 "), "labs.chaicode.com, path: AI engineer with TypeScript. AI chapters first while you're fresh, then the JS/TS ones. Understand, don't race: after each chapter write one line in your own words (what it does, and why). Stuck for 20 minutes? Say \"explain: <concept>\" and Claude teaches it from first principles. Pace is a first guess: if a day overflows, the rest moves to the next day, nothing is skipped."));
+        }
+        if (idx < 17 && CHAI_AT[date] !== undefined) { var ch = CHAI[CHAI_AT[date]]; day.tasks.push(t("chai", "Mock round " + (CHAI_AT[date] + 1) + " of 5: " + ch[0].replace("Mock with Claude: ", ""), ch[1] + " Write the debrief's three 'practise next' points into the failure log.")); }
         day.dsa.forEach(function (lc) { DAYOF[lc] = idx; });
         ALL.push(day);
       }
+      var lLeft = labLeft(LAB_AI, labAi).concat(labLeft(LAB_JS, labJs));
+      if (lLeft.length) { var last = ALL[ALL.length - 1]; last.tasks.push(t("lab", "ChaiCode Labs after Day 90: keep the same daily slot until the path is done", "Still to do: " + lLeft.join("; ") + ". Optional side quest worth doing early: Build a voice agent (TypeScript), next to your Voice Interviewer.")); }
     })();
 
     /* ---------- state ---------- */
@@ -1863,7 +1896,7 @@
     function weekStart(s) { var d = parse(s), w = d.getDay(), back = w === 0 ? 6 : w - 1; d.setDate(d.getDate() - back); return iso(d); }
     function renderLegend() {
       var l = document.getElementById("legend"); l.innerHTML = "";
-      ["dsa", "js", "react", "node", "db", "fri", "des", "hld", "build", "story", "post", "apps"].forEach(function (k) { var s = document.createElement("span"); s.innerHTML = '<i class="dot" style="background:' + T[k].color + '"></i>'; s.appendChild(document.createTextNode(T[k].label.replace(", no AI", ""))); l.appendChild(s); });
+      ["dsa", "js", "react", "node", "db", "fri", "des", "hld", "build", "story", "post", "apps", "lab"].forEach(function (k) { var s = document.createElement("span"); s.innerHTML = '<i class="dot" style="background:' + T[k].color + '"></i>'; s.appendChild(document.createTextNode(T[k].label.replace(", no AI", ""))); l.appendChild(s); });
       var x = document.createElement("span"); x.textContent = "Dashed = mock, bold = checkpoint"; l.appendChild(x);
     }
     var firstPlan = true;
